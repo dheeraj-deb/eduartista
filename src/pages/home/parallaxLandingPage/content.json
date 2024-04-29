@@ -1,0 +1,93 @@
+{
+  "hero-section": {
+    "title": "minecraft text img",
+    "bg": "landscape img"
+  },
+  "sub-hero-sectoin": {
+    "text": "A game made up of blocks, creatures, and community.",
+    "bg": "cave img"
+  },
+  "blocks-section": {
+    "block-1": {
+      "title": "Dirt Block",
+      "block-img": "./assests/blocks/dirt-block.webp",
+      "bg": "1 block color",
+      "block-description": "Dirt is a block found abundantly in most biomes under a layer of grass blocks at the top of the Overworld.",
+      "characteristics": [
+        { "Renewable": "Yes" },
+        { "Stackable": "Yes (64)" },
+        { "Blast resistance": "0.5" },
+        { "Hardness": "0.5" }
+      ]
+    },
+    "block-2": {
+      "title": "Wood Block",
+      "block-img": "./assests/blocks/wood-block.jpg",
+      "bg": "1 block color",
+      "block-description": "Wood, formerly known as Bark blocks, is a type of block that is similar to logs. However, the only difference is that all sides of the cube have the log textures found on the sides.",
+      "characteristics": [
+        { "Flammable": "Yes" },
+        { "Catches fire": "Yes" },
+        { "Blast resistance": "2" },
+        { "Hardness": "2" }
+      ]
+    },
+    "block-3": {
+      "title": "Coal Block",
+      "block-img": "./assests/blocks/coal-block.png",
+      "bg": "1 block color",
+      "block-description": "Blocks of coal can be used as fuel in a furnace. One block of coal lasts 800 seconds (16000 ticks), which smelts 80 items.",
+      "characteristics": [
+        { "Stackable": "Yes (64)" },
+        { "Blast resistance": "6" },
+        { "Hardness": "5" }
+      ]
+    },
+    "block-4": {
+      "title": "Diamond Block",
+      "block-img": "./assests/blocks/diamon-block.png",
+      "bg": "1 block color",
+      "block-description": "Blocks of diamond can be used to 'power' a beacon. The beacon can be powered by a 3×3 square of diamond blocks underneath it.",
+      "characteristics": [
+        { "Stackable": "Yes (64)" },
+        { "Blast resistance": "6" },
+        { "Hardness": "5" }
+      ]
+    }
+  },
+  "animals": {
+    "animal-1": {
+      "title": "Parrot",
+      "block-img": "./assests/animals/",
+      "bg": "Parrot terrain",
+      "block-description": "Parrots are passive and swims in water by flapping its wings. A parrot flies and usually flies upward if it is struck; parrots flap their wings and fall slowly, preventing fall damage. Parrots fly under normal conditions, but they can tire and return to the ground after a short time."
+    },
+    "animal-2": {
+      "title": "Panda",
+      "block-img": "./assests/animals/",
+      "bg": "Panda terrain",
+      "block-description": "Pandas have a main gene and a hidden gene, each assigned to a particular trait. Normal, aggressive, lazy, worried, and playful personalities are dominant traits, while weak and brown personalities are recessive traits."
+    },
+    "animal-3": {
+      "title": "Axolotl",
+      "block-img": "./assests/animals/",
+      "bg": "Axolotl terrain",
+      "block-description": "An axolotl is a passive bucketable aquatic mob found in lush caves that hunts most other aquatic mobs, and can assist players with aquatic combat and grant them Regeneration."
+    }
+  },
+  "last-section": {
+    "title": "The End",
+    "characters": ["end dragon", "enderman"],
+    "bg": "end world"
+  },
+  "footer": {
+    "text": "Copyright © 2023. All Rights Reserved.",
+    "done by": [
+      "Abed Al Ghani Shaaban",
+      "Ahmad Jammoul",
+      "Ahmad Serhal",
+      "Ali Al Hadi Al Husseini",
+      "Emad Hmady"
+    ]
+  }
+}

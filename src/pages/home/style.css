@@ -1,0 +1,161 @@
+.cardFeature {
+  padding: 32px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 5px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: #fff;
+  -webkit-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+  border: 1px solid #ebebf2;
+}
+.cardFeature:hover {
+  -webkit-box-shadow: 0px 25px 80px rgba(10, 9, 86, 0.12);
+  box-shadow: 0px 25px 80px rgba(10, 9, 86, 0.12);
+}
+.cardFeature:hover .cardFeature__icon--bg-g svg,
+.cardFeature:hover .cardFeature__icon--bg-b svg,
+.cardFeature:hover .cardFeature__icon--bg-r svg {
+  color: #fff !important;
+}
+.cardFeature:hover .cardFeature__icon--bg-g {
+  background: #00af92;
+}
+.cardFeature:hover .cardFeature__icon--bg-g svg {
+  color: #fff;
+}
+.cardFeature:hover .cardFeature__icon--bg-b {
+  background: #1089ff;
+}
+.cardFeature:hover .cardFeature__icon--bg-b svg {
+  color: #1089ff;
+}
+.cardFeature:hover .cardFeature__icon--bg-r {
+  background: #f15c4c;
+}
+.cardFeature:hover .cardFeature__icon--bg-r svg {
+  color: #f15c4c;
+}
+.cardFeature__icon {
+  width: 72px;
+  height: 72px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 5px;
+  margin-bottom: 32px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+@media (max-width: 575px) {
+  .cardFeature__icon {
+    margin-bottom: 16px;
+  }
+}
+.cardFeature__icon--bg-g {
+  background: rgba(0, 175, 146, 0.1);
+}
+.cardFeature__icon--bg-g svg {
+  color: #00af91;
+}
+.cardFeature__icon--bg-b {
+  background: rgba(16, 137, 255, 0.1);
+}
+.cardFeature__icon--bg-b svg {
+  color: #1089ff;
+}
+.cardFeature__icon--bg-r {
+  background: rgba(241, 92, 76, 0.1);
+}
+.cardFeature__icon--bg-r svg {
+  color: #f15c4c;
+}
+.cardFeature h5.font-title--xs,
+.cardFeature .font-title--xs.h5 {
+  color: #202029;
+  margin-bottom: 12px;
+}
+@media (max-width: 575px) {
+  .cardFeature h5.font-title--xs,
+  .cardFeature .font-title--xs.h5 {
+    margin-bottom: 6px;
+  }
+}
+.cardFeature p {
+  font-size: 16px;
+  line-height: 24px;
+  color: #8f8fa3;
+  font-weight: 400;
+}
+.cardFeature--center {
+  text-align: center;
+}
+.cardFeature--center .cardFeature__icon {
+  margin: auto;
+  margin-bottom: 32px;
+}
+@media (max-width: 575px) {
+  .cardFeature--center .cardFeature__icon {
+    margin-bottom: 16px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  .cardFeature {
+    height: 100%;
+  }
+}
+
+.font-title--lg,
+.font-title--md,
+.font-title--sm,
+.font-title--xs {
+  text-transform: capitalize;
+}
+
+.font-title--md,
+.font-title--xs {
+  font-weight: 700;
+  color: #202029;
+}
+
+.font-title--lg {
+  font-size: 56px;
+  color: #202029;
+  font-weight: 600;
+  line-height: 70px;
+}
+@media (max-width: 767px) {
+  .font-title--lg {
+    font-size: 48px;
+    line-height: 58px;
+  }
+}
+@media (max-width: 480px) {
+  .font-title--lg {
+    font-size: 32px;
+    line-height: 42px;
+  }
+}
+
+.font-title--md {
+  font-size: 40px;
+  line-height: 50px;
+}
+@media (max-width: 767px) {
+  .font-title--md {
+    font-size: 26px;
+    line-height: 36px;
+  }
+}
+

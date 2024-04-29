@@ -1,0 +1,73 @@
+import React from "react";
+
+const Categories = () => {
+  return (
+    <div className="mt-20 pt-10 px-5 md:px-10">
+      <h1 className="px-3.5 md:px-0 md:text-center font-title--md text-3xl md:text-4xl text-black">
+        Browse Top Categories
+      </h1>
+      <section className="container mx-auto p-10 md:py-20 px-3.5 antialiased ">
+        <section className="grid lg:grid-cols-2 2xl:grid-cols-3 grid-cols-1 gap-10 md:gap-40 ">
+          <article
+            className="mx-auto max-w-sm shadow-xl bg-cover bg-center min-h-150 transform duration-500 hover:-translate-y-2 cursor-pointer group"
+            style={{
+              backgroundImage:
+                "url(https://as2.ftcdn.net/v2/jpg/02/41/55/49/1000_F_241554919_aR4WafsD153xMBVuQKqXXIRxSixLfMV5.jpg)",
+            }}
+          >
+            <div className="bg-black bg-opacity-20 min-h-150 px-10 flex flex-wrap flex-col pt-96 hover:bg-opacity-75 transform duration-300">
+              <h1 className="text-white text-3xl mb-5 transform translate-y-20 group-hover:translate-y-0 duration-300">
+                Fashion Magazine
+              </h1>
+              <div className="w-16 h-2 bg-yellow-500 rounded-full mb-5 transform translate-y-20 group-hover:translate-y-0 duration-300"></div>
+              <p className="opacity-0 text-white text-xl group-hover:opacity-80 transform duration-500">
+                Trendy styles, celebrity fashion, and expert tips for chic looks
+                and runway inspiration.
+              </p>
+            </div>
+          </article>
+
+          <article
+            className="mx-auto max-w-sm shadow-xl bg-cover bg-center min-h-150 transform duration-500 hover:-translate-y-2 cursor-pointer group"
+            style={{
+              backgroundImage:
+                "url(https://as2.ftcdn.net/v2/jpg/02/95/48/59/1000_F_295485945_TtDDon8GSBqB7wbRCCtHLPwWH6NcMWwg.jpg)",
+            }}
+          >
+            <div className="bg-black bg-opacity-20 min-h-150 px-10 flex flex-wrap flex-col pt-96 hover:bg-opacity-75 transform duration-300">
+              <h1 className="text-white text-3xl mb-5 transform translate-y-20 group-hover:translate-y-0 duration-300">
+                Travel Magazine
+              </h1>
+              <div className="w-16 h-2 bg-orange-500 rounded-full mb-5 transform translate-y-20 group-hover:translate-y-0 duration-300"></div>
+              <p className="opacity-0 text-white text-xl group-hover:opacity-80 transform duration-500">
+                Stunning destinations, travel guides, and adventure stories to
+                fuel your wanderlust.
+              </p>
+            </div>
+          </article>
+
+          <article
+            className="mx-auto max-w-sm shadow-xl bg-cover bg-center min-h-150 transform duration-500 hover:-translate-y-2 cursor-pointer group"
+            style={{
+              backgroundImage:
+                "url(https://as2.ftcdn.net/v2/jpg/04/81/12/53/1000_F_481125398_sBKxpqGYZpF9YgiFs4yNkK7v8o8Y0twB.jpg)",
+            }}
+          >
+            <div className="bg-black bg-opacity-20 min-h-150 px-10 flex flex-wrap flex-col pt-96 hover:bg-opacity-75 transform duration-300">
+              <h1 className="text-white text-3xl mb-5 transform translate-y-20 group-hover:translate-y-0 duration-300">
+                Technology Magazine
+              </h1>
+              <div className="w-16 h-2 bg-red-500 rounded-full mb-5 transform translate-y-20 group-hover:translate-y-0 duration-300"></div>
+              <p className="opacity-0 text-white text-xl group-hover:opacity-80 transform duration-500">
+                Latest gadgets, tech trends, and innovation insights for staying
+                ahead in the digital world.
+              </p>
+            </div>
+          </article>
+        </section>
+      </section>
+    </div>
+  );
+};
+
+export default Categories;
