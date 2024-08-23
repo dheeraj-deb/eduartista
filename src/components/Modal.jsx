@@ -43,11 +43,26 @@ const Modal = () => {
               </div>
             </div>
           </div>
-          <div className="modal-body">
+          <div className="modal-body mt-7">
             {activeTab === "User" ? (
-              <div>
-                <h1 className="text-center text-2xl font-bold">User</h1>
-                <p className="text-center text-lg">User content goes here</p>
+              <div className="px-8">
+                <h1 className="text-center text-2xl font-bold">Login</h1>
+                <div className="mt-8">
+                  <label
+                    htmlFor="phone"
+                    className="block mb-2 text-sm font-small text-gray-900 dark:text-white"
+                  >
+                    Mobile number
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="123-45-678-910"
+                    pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                    required
+                  />
+                </div>
               </div>
             ) : (
               <div>
