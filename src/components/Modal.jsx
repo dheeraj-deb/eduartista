@@ -1,7 +1,14 @@
 import React, { useState } from "react";
+import AgentReg from "./AgentReg";
+import AgentLogin from "./AgentLogin";
 
 const Modal = () => {
   const [activeTab, setActiveTab] = useState("User");
+  const [isLoginForm, setIsLoginForm] = useState(true);
+
+  const toggleSignInForm = () => {
+    setIsLoginForm(!isLoginForm);
+  };
 
   return (
     <dialog id="my_modal_5" className="modal modal-middle sm:modal-middle">
@@ -51,8 +58,28 @@ const Modal = () => {
               </div>
             ) : (
               <div>
-                <h1 className="text-center text-2xl font-bold">Agent</h1>
-                <p className="text-center text-lg">Agent content goes here</p>
+                <div>
+                  <h2 className="text-center text-black text-xl font-bold mt-3">
+                   {isLoginForm ? "Log in" : "Sign up"}
+                  </h2>
+                  <p className="text-center text-black text-xs cursor-pointer" onClick={toggleSignInForm}>
+                  {isLoginForm ? (
+                                    <>
+                                     {`Don't have an account? `}
+                                     <span className="underline no-skip-ink ">Sign up</span>
+                                    </>
+                                    
+                                 ) : (
+                                       <>
+                                        {`Already have an account? `}
+                                        <span className="underline no-skip-ink ">Log in</span>
+                                       </>
+                                  )
+                   }
+                  </p>
+
+                </div>
+                {isLoginForm ? <AgentLogin /> : <AgentReg /> }
               </div>
             )}
           </div>
