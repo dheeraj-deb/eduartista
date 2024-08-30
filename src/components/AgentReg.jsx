@@ -1,34 +1,236 @@
-import React,{ useState} from 'react'
-import { MdArrowBackIosNew } from "react-icons/md";
-
+import React, { useState, useCallback, useRef } from 'react';
+import Webcam from 'react-webcam';
+import { useForm } from "react-hook-form";
 
 const AgentReg = () => {
-  const [step, setStep] = useState(1);
+  const { register, handleSubmit, setValue, formState: { errors }, trigger } = useForm({
+    defaultValues: {
+      name: '',
+      mobileNumber: '',
+      dob: '',
+      address: '',
+      postOffice: '',
+      pincode: '',
+      district: '',
+      state: '',
+      country: '',
+      punchayathMunicipality: '',
+      wardNumber: '',
+      cdsName: '',
+      photo: null,
+    }
+  });
 
-    const nextStep = () => setStep(step + 1);
-    const prevStep = () => setStep(step - 1);
+  const [step, setStep] = useState(1);
+  const [photo, setPhoto] = useState(null); // To store captured photo
+  const [isWebcamVisible, setIsWebcamVisible] = useState(false); // Initially, the webcam is not visible
+
+  const webcamRef = useRef(null);
+
+  // Capture photo from the webcam
+  const capturePhoto = useCallback(() => {
+    const imageSrc = webcamRef.current.getScreenshot();
+    setPhoto(imageSrc);
+    setIsWebcamVisible(false); // Hide the webcam after capturing the photo
+    setValue('photo', imageSrc, { shouldValidate: true });
+  }, [webcamRef, setValue]);
+
+  // Show the webcam for capturing or retaking a photo
+  const showWebcam = () => {
+    setIsWebcamVisible(true); // Show the webcam
+    setPhoto(null); // Clear previous photo
+  };
+
+  // Move to the next step after validating the current step
+  const nextStep = async () => {
+    let fieldsToValidate = [];
+    switch (step) {
+      case 1:
+        fieldsToValidate = ['name', 'mobileNumber', 'dob'];
+        break;
+      case 2:
+        fieldsToValidate = ['address', 'postOffice', 'pincode', 'district', 'state', 'country'];
+        break;
+      case 3:
+        fieldsToValidate = ['punchayathMunicipality', 'wardNumber'];
+        break;
+      default:
+        break;
+    }
+    const isValid = await trigger(fieldsToValidate);
+    if (isValid) {
+      setStep(step + 1);
+    }
+  };
+
+  // Submit form data
+  const onSubmit = (data) => {
+    if (photo) {
+      data.photo = photo; // Store the captured image
+    }
+    console.log(data);
+    // Process form data (e.g., send to a server)
+  };
+
   return (
     <>
-      
-       {/* Dots Animation */}
-       <div className="flex justify-center mb-5 mt-2">
-                    {[...Array(3)].map((_, index) => (
-                        <div 
-                            key={index} 
-                            className={`w-2 h-2 mx-1.5 bg-[#111111] rounded-full transition-all duration-300 ${index < step ? 'scale-125 opacity-100' : 'opacity-50'}`}
-                        ></div>
-                    ))}
-                    
-                </div>
+      {/* Dots Animation */}
+      <div className='flex justify-center mt-10 mx-10 my-8'>
+        {[...Array(3)].map((_, index) => (
+          <React.Fragment key={index}>
+            <div className="flex flex-col items-center">
+              <div
+                className={`w-4 h-4 rounded-full flex items-center justify-center transition-transform duration-300 ease-in ${index < step ? 'bg-[#111111] scale-125' : 'bg-[#11111136] scale-100'}`}
+              >
+                <span className="text-xs text-white font-light">
+                  {index + 1}
+                </span>
+              </div>
+            </div>
+            {index < 2 && (
+              <div
+                className={`w-[200px] h-[1px] mx-3 transition-colors duration-300 ${step > index + 1 ? 'bg-black' : 'bg-gray-400'}`}
+              ></div>
+            )}
+          </React.Fragment>
+        ))}
+      </div>
 
-                <div className="mt-4 flex justify-between">
-                        {step > 1 && <button onClick={prevStep} type="button" className="btn-primary"><MdArrowBackIosNew /></button>}
-                        {step < 3 && <button onClick={nextStep} type="button" className="px-4 bg-[#11111136] text-black  rounded-sm ml-auto border border-transparent hover:border-black">Next</button>}
-                        {step === 3 && <button type="submit" className="px-4 bg-[#11111136] text-black  rounded-sm ml-auto border border-transparent hover:border-black">Submit</button>}
-                    </div>
+      {/* Form Section */}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {step === 1 && (
+          <>
+           <div className='mb-4'>
+              <label htmlFor="name" className="input-label-ag">{`What's your name?`}</label>
+              <input
+                  id="name" 
+                  {...register('name', { required: 'Name is required' })}
+                  placeholder="Write your full name"
+                  className="input-box-ag"  
+               />
+             {errors.name &&<p className="error-ag">{errors.name.message}</p>}
+           </div>
+            
+            <div className="mb-4">
+              <label className="input-label-ag">Please enter your mobile number</label>
+              <input 
+                  {...register('mobileNumber', { required: 'Mobile Number is required' })} 
+                   className="input-box-ag"
+              />
+              {errors.mobileNumber && <p className='error-ag'>{errors.mobileNumber.message}</p>}
+            </div>
 
+            <div className="mb-7">
+              <label className="input-label-ag">Enter your date of birth</label>
+              <input 
+                  type="date" 
+                  {...register('dob', { required: 'Date of Birth is required' })}
+                  className="input-box-ag" 
+              />
+              {errors.dob && <p className='error-ag'>{errors.dob.message}</p>}
+            </div>
+          </>
+        )}
+
+        {step === 2 && (
+          <>
+            <div className='mb-4'>
+              <label className="input-label-ag">Address</label>
+              <input {...register('address', { required: 'Address is required' })} className="input-box-ag" />
+              {errors.address && <p className='error-ag'>{errors.address.message}</p>}
+            </div>
+            <div className='mb-4'>
+              <label className="input-label-ag">Post Office</label>
+              <input {...register('postOffice', { required: 'Post Office is required' })} className="input-box-ag" />
+              {errors.postOffice && <p className='error-ag'>{errors.postOffice.message}</p>}
+            </div>
+            <div className='mb-4' >
+              <label className="input-label-ag">Pincode</label>
+              <input {...register('pincode', { required: 'Pincode is required' })} className="input-box-ag"  />
+              {errors.pincode && <p className='error-ag'>{errors.pincode.message}</p>}
+            </div>
+            <div className='mb-4'>
+              <label className="input-label-ag">District</label>
+              <input {...register('district', { required: 'District is required' })} className="input-box-ag" />
+              {errors.district && <p className='error-ag'>{errors.district.message}</p>}
+            </div>
+            <div className='mb-4'>
+              <label className="input-label-ag">State</label>
+              <input {...register('state', { required: 'State is required' })} className="input-box-ag" />
+              {errors.state && <p className='error-ag'>{errors.state.message}</p>}
+            </div>
+            <div className="mb-7">
+              <label className="input-label-ag">Country</label>
+              <input {...register('country', { required: 'Country is required' })} className="input-box-ag" />
+              {errors.country && <p className='error-ag'>{errors.country.message}</p>}
+            </div>
+          </>
+        )}
+
+        {step === 3 && (
+          <>
+            <div className='mb-4'>
+              <label className="input-label-ag">Punchayath/Municipality</label>
+              <input {...register('punchayathMunicipality', { required: 'This field is required' })} className="input-box-ag" />
+              {errors.punchayathMunicipality && <p className='error-ag'>{errors.punchayathMunicipality.message}</p>}
+            </div>
+            <div className='mb-4'>
+              <label className="input-label-ag">Ward Number</label>
+              <input {...register('wardNumber', { required: 'Ward Number is required' })} className="input-box-ag" />
+              {errors.wardNumber && <p className='error-ag'>{errors.wardNumber.message}</p>}
+            </div>
+
+            {/* Webcam Component for Capturing Photo */}
+            <div className="flex flex-col items-center my-6">
+              <div className="flex items-center space-x-4 mb-4">
+                <label className="text-lg font-semibold">Take Your Photo</label>
+                <button
+                  type="button"
+                  onClick={isWebcamVisible ? capturePhoto : showWebcam}  // Change button action
+                  className={`px-6 py-2 ${isWebcamVisible ? 'bg-gray-500 hover:bg-gray-600' : 'bg-blue-600 hover:bg-blue-700'} text-white rounded-md transition-colors`}
+                >
+                  {photo ? 'Retake' : 'Capture'}  {/* Change button text */}
+                </button>
+              </div>
+              {isWebcamVisible ? (
+                <Webcam
+                  audio={false}
+                  ref={webcamRef}
+                  screenshotFormat="image/jpeg"
+                  className="rounded-lg shadow-md mb-4 w-64 h-48"
+                  videoConstraints={{ facingMode: "user" }}
+                />
+              ) : (
+                photo && (
+                  <div className="flex flex-col items-center">
+                    <img src={photo} alt="Captured" className="rounded-lg shadow-md mb-4 w-32 h-24 object-cover" />
+                  </div>
+                )
+              )}
+            </div>
+          </>
+        )}
+
+        {/* Navigation Buttons */}
+        <div className='flex flex-col'>
+          {step < 3 && (
+            <button
+              onClick={nextStep}
+              type="button"
+              className="px-6 py-2 my-1 rounded-full bg-[#11111136] text-white "
+            >
+              Next
+            </button>
+          )}
+          {step === 3 && (
+            <button type="submit" className="px-6 py-2 my-1 rounded-full bg-[#11111136] text-white ">
+              Submit
+            </button>
+          )}
+        </div>
+      </form>
     </>
-  )
-}
+  );
+};
 
-export default AgentReg
+export default AgentReg;

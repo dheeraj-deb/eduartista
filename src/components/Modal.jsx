@@ -68,7 +68,7 @@ const Modal = () => {
                                      {`Don't have an account? `}
                                      <span className="underline no-skip-ink ">Sign up</span>
                                     </>
-                                    
+
                                  ) : (
                                        <>
                                         {`Already have an account? `}
@@ -77,7 +77,6 @@ const Modal = () => {
                                   )
                    }
                   </p>
-
                 </div>
                 {isLoginForm ? <AgentLogin /> : <AgentReg /> }
               </div>
