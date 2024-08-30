@@ -1,9 +1,19 @@
 import React, { useState, useCallback, useRef } from 'react';
 import Webcam from 'react-webcam';
 import { useForm } from "react-hook-form";
+import {mobileNumberRegex, nameRegex,} from "../utils/constants"
+
+
+
+const stepFields = {
+  1: ['name', 'mobileNumber', 'dob'],
+  2: ['address', 'postOffice', 'pincode', 'district', 'state', 'country'],
+  3: ['punchayathMunicipality', 'wardNumber', 'photo']
+};
+
 
 const AgentReg = () => {
-  const { register, handleSubmit, setValue, formState: { errors }, trigger } = useForm({
+  const { register, handleSubmit, setValue, setError, formState: { errors }, trigger } = useForm({
     defaultValues: {
       name: '',
       mobileNumber: '',
@@ -35,46 +45,41 @@ const AgentReg = () => {
     setValue('photo', imageSrc, { shouldValidate: true });
   }, [webcamRef, setValue]);
 
+
   // Show the webcam for capturing or retaking a photo
   const showWebcam = () => {
     setIsWebcamVisible(true); // Show the webcam
     setPhoto(null); // Clear previous photo
   };
 
-  // Move to the next step after validating the current step
-  const nextStep = async () => {
-    let fieldsToValidate = [];
-    switch (step) {
-      case 1:
-        fieldsToValidate = ['name', 'mobileNumber', 'dob'];
-        break;
-      case 2:
-        fieldsToValidate = ['address', 'postOffice', 'pincode', 'district', 'state', 'country'];
-        break;
-      case 3:
-        fieldsToValidate = ['punchayathMunicipality', 'wardNumber'];
-        break;
-      default:
-        break;
-    }
+
+  // Function to get fields for validation based on the current step
+  const getFieldsToValidate = (currentStep) => stepFields[currentStep] || [];
+  
+   // Move to the next step after validating the current step
+   const nextStep = async () => {
+    const fieldsToValidate = getFieldsToValidate(step);
     const isValid = await trigger(fieldsToValidate);
     if (isValid) {
       setStep(step + 1);
     }
   };
 
-  // Submit form data
+
+  // Handle form submission
   const onSubmit = (data) => {
-    if (photo) {
-      data.photo = photo; // Store the captured image
+    if (step === 3 && !photo) {
+      setError('photo', { type: 'manual', message: 'Photo is required' });
+      return;
     }
+    data.photo = photo;// Store the captured image
     console.log(data);
     // Process form data (e.g., send to a server)
   };
 
   return (
     <>
-      {/* Dots Animation */}
+      {/**Dots Animation */}
       <div className='flex justify-center mt-10 mx-10 my-8'>
         {[...Array(3)].map((_, index) => (
           <React.Fragment key={index}>
@@ -103,8 +108,22 @@ const AgentReg = () => {
            <div className='mb-4'>
               <label htmlFor="name" className="input-label-ag">{`What's your name?`}</label>
               <input
+                  type="text"
                   id="name" 
-                  {...register('name', { required: 'Name is required' })}
+                  {...register('name', { 
+                    required: 'Name is required',
+                    minLength:{
+                      value: 3, 
+                      message: 'Name must be at least 3 characters long',},
+                    maxLength: {
+                      value: 20,
+                      message: 'Name cannot exceed 20 characters',
+                    },
+                    pattern: {
+                      value: nameRegex,
+                      message: "Name should only contain letters (a-z, A-Z), spaces, ('), and (-)."
+                    },
+                   })}
                   placeholder="Write your full name"
                   className="input-box-ag"  
                />
@@ -112,19 +131,34 @@ const AgentReg = () => {
            </div>
             
             <div className="mb-4">
-              <label className="input-label-ag">Please enter your mobile number</label>
+              <label htmlFor="mobileNumber" className="input-label-ag">Please enter your mobile number</label>
               <input 
-                  {...register('mobileNumber', { required: 'Mobile Number is required' })} 
+                  id="mobileNumber" 
+                  type="text"
+                  {...register('mobileNumber', { 
+                    required: 'Mobile Number is required',
+                    maxLength: {
+                      value:10,
+                      message:"Mobile number should only contain 10 digits.",
+                    },
+                    pattern: {
+                      value: mobileNumberRegex,
+                      message: 'Please enter a valid mobile number'
+                    }
+                  })} 
                    className="input-box-ag"
               />
               {errors.mobileNumber && <p className='error-ag'>{errors.mobileNumber.message}</p>}
             </div>
 
             <div className="mb-7">
-              <label className="input-label-ag">Enter your date of birth</label>
+              <label htmlFor='dob' className="input-label-ag">Enter your date of birth</label>
               <input 
                   type="date" 
-                  {...register('dob', { required: 'Date of Birth is required' })}
+                  id='dob'
+                  {...register('dob', { 
+                    required: 'Date of Birth is required' 
+                  })}
                   className="input-box-ag" 
               />
               {errors.dob && <p className='error-ag'>{errors.dob.message}</p>}
@@ -179,34 +213,61 @@ const AgentReg = () => {
               <input {...register('wardNumber', { required: 'Ward Number is required' })} className="input-box-ag" />
               {errors.wardNumber && <p className='error-ag'>{errors.wardNumber.message}</p>}
             </div>
+            <div className='mb-4'>
+            <label htmlFor='cdsName' className="input-label-ag">CDS Name</label>
+              <input
+                type='text'
+                id='cdsName'
+                {...register('cdsName', { 
+                  minLength:{
+                    value: 3, 
+                    message: 'Name must be at least 3 characters long',},
+                  maxLength: {
+                    value: 50,
+                    message: 'Name cannot exceed 20 characters',
+                  },
+                  pattern: {
+                    value: nameRegex,
+                    message: "Name should only contain letters (a-z, A-Z), spaces, ('), and (-)."
+                  },
+                 })}
+                 className="input-box-ag"
+              />
+              {errors.cdsName && <p className='error-ag'>{errors.cdsName.message}</p>}
+            </div>
 
-            {/* Webcam Component for Capturing Photo */}
-            <div className="flex flex-col items-center my-6">
-              <div className="flex items-center space-x-4 mb-4">
-                <label className="text-lg font-semibold">Take Your Photo</label>
-                <button
-                  type="button"
-                  onClick={isWebcamVisible ? capturePhoto : showWebcam}  // Change button action
-                  className={`px-6 py-2 ${isWebcamVisible ? 'bg-gray-500 hover:bg-gray-600' : 'bg-blue-600 hover:bg-blue-700'} text-white rounded-md transition-colors`}
-                >
-                  {photo ? 'Retake' : 'Capture'}  {/* Change button text */}
-                </button>
-              </div>
-              {isWebcamVisible ? (
+
+            {/* Webcam Component for Capturing Photo div 1 className="flex flex-col items-center my-6" div 2  className="flex items-center space-x-4 mb-4"*/}
+            <div className='flex flex-col mb-7'>
+              <div>
+                <label htmlFor='photo' className="input-label-ag ">Take Your Photo</label>
+                {errors.photo && <p className='error-ag'>{errors.photo.message}</p>}
+               <div className='flex justify-center'>
+               {isWebcamVisible ? (
                 <Webcam
                   audio={false}
                   ref={webcamRef}
                   screenshotFormat="image/jpeg"
-                  className="rounded-lg shadow-md mb-4 w-64 h-48"
+                  className="w-full max-w-[320px] h-auto max-h-[240px] shadow-xl mb-4 border-[#11111136] border-2 rounded-lg"
                   videoConstraints={{ facingMode: "user" }}
                 />
               ) : (
-                photo && (
-                  <div className="flex flex-col items-center">
-                    <img src={photo} alt="Captured" className="rounded-lg shadow-md mb-4 w-32 h-24 object-cover" />
-                  </div>
+                photo && (                
+                    <img src={photo} alt="Captured" className="w-full max-w-[320px] h-auto max-h-[240px] shadow-xl mb-4 border-[#11111136] border-2 rounded-lg" />
                 )
               )}
+               </div>
+                
+                <div className='flex justify-center'>
+                <button
+                  type="button"
+                  onClick={isWebcamVisible ? capturePhoto : showWebcam}  // Change button action
+                  className={`px-4 ${isWebcamVisible ? 'bg-gray-500 hover:bg-gray-600' : 'bg-gray-500 hover:bg-gray-700'} text-white rounded-full transition-colors`}
+                >
+                   {photo ? 'Retake' : 'Capture'}  {/* Change button text */}
+                 </button>
+                </div>
+              </div>             
             </div>
           </>
         )}
