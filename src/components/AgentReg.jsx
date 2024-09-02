@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react';
 import Webcam from 'react-webcam';
 import { useForm } from "react-hook-form";
-import {mobileNumberRegex, nameRegex,} from "../utils/constants"
 
 
 
@@ -116,11 +115,11 @@ const AgentReg = () => {
                       value: 3, 
                       message: 'Name must be at least 3 characters long',},
                     maxLength: {
-                      value: 20,
-                      message: 'Name cannot exceed 20 characters',
+                      value: 25,
+                      message: 'Name cannot exceed 25 characters',
                     },
                     pattern: {
-                      value: nameRegex,
+                      value: /^[a-zA-Z][a-zA-Z\s'-]*$/,
                       message: "Name should only contain letters (a-z, A-Z), spaces, ('), and (-)."
                     },
                    })}
@@ -137,16 +136,21 @@ const AgentReg = () => {
                   type="text"
                   {...register('mobileNumber', { 
                     required: 'Mobile Number is required',
+                    minLength:{
+                      value:10,
+                      message:"Mobile number must be exactly 10 digits."
+                    },
                     maxLength: {
                       value:10,
-                      message:"Mobile number should only contain 10 digits.",
+                      message:"Mobile number  must be exactly 10 digits.",
                     },
                     pattern: {
-                      value: mobileNumberRegex,
+                      value: /^[6-9]\d{9}$/,
                       message: 'Please enter a valid mobile number'
                     }
                   })} 
-                   className="input-box-ag"
+                  placeholder='Enter your 10 digit mobile number'
+                  className="input-box-ag"
               />
               {errors.mobileNumber && <p className='error-ag'>{errors.mobileNumber.message}</p>}
             </div>
@@ -169,33 +173,141 @@ const AgentReg = () => {
         {step === 2 && (
           <>
             <div className='mb-4'>
-              <label className="input-label-ag">Address</label>
-              <input {...register('address', { required: 'Address is required' })} className="input-box-ag" />
+              <label htmlFor='address' className="input-label-ag">Address</label>
+              <input
+                  type='text' 
+                  id='address' 
+                  {...register('address', { 
+                    required: 'Address is required',
+                    minLength: {
+                      value: 10,
+                      message: 'Address must be at least 10 characters long.'
+                    },
+                    maxLength: {
+                      value: 100,
+                      message: 'Address cannot be longer than 100 characters.'
+                    }, 
+                    pattern: {
+                      value:/^[a-zA-Z0-9][a-zA-Z0-9\s,'-./]*$/,
+                      message: 'Address should only contain (a-z, A-Z), spaces, numbers, commas, periods, apostrophes, hyphens, and slashes.'
+                    }
+                   })} 
+                  placeholder="Enter your address"
+                  className="input-box-ag" />
               {errors.address && <p className='error-ag'>{errors.address.message}</p>}
             </div>
             <div className='mb-4'>
-              <label className="input-label-ag">Post Office</label>
-              <input {...register('postOffice', { required: 'Post Office is required' })} className="input-box-ag" />
+              <label htmlFor='postOffice' className="input-label-ag">Post Office</label>
+              <input 
+                  type='text' 
+                  id='postOffice' 
+                  {...register('postOffice', { 
+                    required: 'Post Office is required' ,
+                    minLength: {
+                      value: 3,
+                      message: 'Post Office must be at least 3 characters long.'
+                    },
+                    maxLength: {
+                      value: 50, 
+                      message: 'Post Office cannot be longer than 50 characters.'
+                    },
+                    pattern: {
+                      value: /^[a-zA-Z][a-zA-Z\s]*$/, 
+                      message: 'Post Office should start with a letter and only contain letters and spaces.'
+                    }
+                    })}
+                  placeholder="Enter your post office name" 
+                  className="input-box-ag" />
               {errors.postOffice && <p className='error-ag'>{errors.postOffice.message}</p>}
             </div>
             <div className='mb-4' >
-              <label className="input-label-ag">Pincode</label>
-              <input {...register('pincode', { required: 'Pincode is required' })} className="input-box-ag"  />
+              <label htmlFor='pincode' className="input-label-ag">Pincode</label>
+              <input 
+                  type='text' 
+                  id='pincode' 
+                  {...register('pincode', { 
+                    required: 'Pincode is required',
+                    pattern: {
+                      value: /^\d{6}$/, // Exactly 6 digits
+                      message: 'Pincode must be exactly 6 digits.'
+                    } 
+                    })} 
+                  placeholder='Enter your pincode'
+                  className="input-box-ag"  />
               {errors.pincode && <p className='error-ag'>{errors.pincode.message}</p>}
             </div>
             <div className='mb-4'>
-              <label className="input-label-ag">District</label>
-              <input {...register('district', { required: 'District is required' })} className="input-box-ag" />
+              <label htmlFor='district' className="input-label-ag">District</label>
+              <input 
+                  type='text' 
+                  id='district' 
+                  {...register('district', { 
+                    required: 'District is required',
+                    minLength: {
+                      value: 3,
+                      message: 'District must be at least 3 characters long.'
+                    },
+                    maxLength: {
+                      value: 15, 
+                      message: 'District cannot be longer than 15 characters.'
+                    },
+                    pattern: {
+                      value: /^[a-zA-Z][a-zA-Z\s]*$/, 
+                      message: 'District  should start with a letter and only contain letters and spaces.'
+                    }
+                     })} 
+                    placeholder='"Enter your district"'
+                    className="input-box-ag" />
               {errors.district && <p className='error-ag'>{errors.district.message}</p>}
             </div>
             <div className='mb-4'>
-              <label className="input-label-ag">State</label>
-              <input {...register('state', { required: 'State is required' })} className="input-box-ag" />
+              <label htmlFor='state' className="input-label-ag">State</label>
+              <input 
+                 type='text' 
+                 id='state'
+                 {...register('state', { 
+                  required: 'State is required',
+                  minLength: {
+                    value: 3,
+                    message: 'State must be at least 3 characters long.'
+                  },
+                  maxLength: {
+                    value: 15, 
+                    message: 'State cannot be longer than 15 characters.'
+                  },
+                  pattern: {
+                    value: /^[a-zA-Z][a-zA-Z\s]*$/, 
+                    message: 'State  should start with a letter and only contain letters and spaces.'
+                  } 
+                  })} 
+                placeholder="Enter your state" 
+                className="input-box-ag" 
+              />
               {errors.state && <p className='error-ag'>{errors.state.message}</p>}
             </div>
             <div className="mb-7">
-              <label className="input-label-ag">Country</label>
-              <input {...register('country', { required: 'Country is required' })} className="input-box-ag" />
+              <label htmlFor='country' className="input-label-ag">Country</label>
+              <input 
+                  type='text' 
+                  id='country'
+                  {...register('country', { 
+                    required: 'Country is required',
+                    minLength: {
+                      value: 3,
+                      message: 'Country must be at least 3 characters long.'
+                    },
+                    maxLength: {
+                      value: 15, 
+                      message: 'Country cannot be longer than 15 characters.'
+                    },
+                    pattern: {
+                      value: /^[a-zA-Z][a-zA-Z\s]*$/, 
+                      message: 'Country  should start with a letter and only contain letters and spaces.'
+                    }
+                     })} 
+                  placeholder="Enter your country" 
+                  className="input-box-ag" 
+               />
               {errors.country && <p className='error-ag'>{errors.country.message}</p>}
             </div>
           </>
@@ -204,13 +316,46 @@ const AgentReg = () => {
         {step === 3 && (
           <>
             <div className='mb-4'>
-              <label className="input-label-ag">Punchayath/Municipality</label>
-              <input {...register('punchayathMunicipality', { required: 'This field is required' })} className="input-box-ag" />
+              <label htmlFor="punchayathMunicipality" className="input-label-ag">Punchayath/Municipality</label>
+              <input 
+                 type='text' 
+                 id='punchayathMunicipality'
+                 {...register('punchayathMunicipality', {
+                   required: 'This field is required',
+                   minLength:{
+                    value: 5, 
+                    message: 'Must be at least 5 characters long',},
+                  maxLength: {
+                    value: 25,
+                    message: 'Cannot exceed 25 characters',
+                  },
+                  pattern: {
+                    value: /^[a-zA-Z]+(\s[a-zA-Z]+)*$/,
+                    message: "Name should only contain letters (a-z, A-Z), spaces, ('), and (-)."
+                  },
+                  })} 
+              placeholder='Name of your punchayath or Municipality'
+              className="input-box-ag" 
+              />
               {errors.punchayathMunicipality && <p className='error-ag'>{errors.punchayathMunicipality.message}</p>}
             </div>
             <div className='mb-4'>
-              <label className="input-label-ag">Ward Number</label>
-              <input {...register('wardNumber', { required: 'Ward Number is required' })} className="input-box-ag" />
+              <label htmlFor="wardNumber" className="input-label-ag">Ward Number</label>
+              <input 
+                  type='number' 
+                  id='wardNumber' 
+                  {...register('wardNumber', { 
+                    required: 'Ward Number is required', 
+                    minLength:{
+                      value: 1, 
+                      message: 'Must be at least 1 digit long',},
+                    maxLength: {
+                      value:2,
+                      message:'Cannot exceed 2 digits '
+                    }
+                  })} 
+                  placeholder='Enter your ward Number'
+                  className="input-box-ag" />
               {errors.wardNumber && <p className='error-ag'>{errors.wardNumber.message}</p>}
             </div>
             <div className='mb-4'>
@@ -227,10 +372,11 @@ const AgentReg = () => {
                     message: 'Name cannot exceed 20 characters',
                   },
                   pattern: {
-                    value: nameRegex,
+                    value: /^[a-zA-Z][a-zA-Z\s'-]*$/,
                     message: "Name should only contain letters (a-z, A-Z), spaces, ('), and (-)."
                   },
                  })}
+                 placeholder='If you are a kudumbashree member'
                  className="input-box-ag"
               />
               {errors.cdsName && <p className='error-ag'>{errors.cdsName.message}</p>}
