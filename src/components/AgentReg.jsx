@@ -46,23 +46,23 @@ const AgentReg = () => {
 
 
   // Show the webcam for capturing or retaking a photo
-  const showWebcam = () => {
+  const showWebcam =useCallback(() => {
     setIsWebcamVisible(true); // Show the webcam
     setPhoto(null); // Clear previous photo
-  };
+  }, []);
 
 
   // Function to get fields for validation based on the current step
   const getFieldsToValidate = (currentStep) => stepFields[currentStep] || [];
   
    // Move to the next step after validating the current step
-   const nextStep = async () => {
+   const nextStep = useCallback( async () => {
     const fieldsToValidate = getFieldsToValidate(step);
     const isValid = await trigger(fieldsToValidate);
     if (isValid) {
       setStep(step + 1);
     }
-  };
+  }, [step, trigger]);
 
 
   // Handle form submission
