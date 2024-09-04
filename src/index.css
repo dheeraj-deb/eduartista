@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+@layer components {
+
+    .input-label-ag {
+      @apply block text-sm font-medium text-black mb-1;
+  }
+
+  .input-box-ag {
+    @apply block bg-white w-full border border-[#11111136] rounded-lg px-3 py-2 placeholder:text-gray-500 placeholder:text-sm text-black focus:border-black focus:ring-0;
+ }
+
+ .error-ag {
+    @apply text-[#e53e3e] text-xs mt-1;
+ }
+
+  }
