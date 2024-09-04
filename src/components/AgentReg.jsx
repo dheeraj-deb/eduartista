@@ -172,6 +172,7 @@ const AgentReg = () => {
 
         {step === 2 && (
           <>
+          <div className="h-64 overflow-y-scroll custom-scrollbar px-2">
             <div className='mb-4'>
               <label htmlFor='address' className="input-label-ag">Address</label>
               <input
@@ -309,6 +310,7 @@ const AgentReg = () => {
                   className="input-box-ag" 
                />
               {errors.country && <p className='error-ag'>{errors.country.message}</p>}
+            </div>
             </div>
           </>
         )}
