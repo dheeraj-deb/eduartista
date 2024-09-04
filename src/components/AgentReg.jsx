@@ -13,6 +13,8 @@ const stepFields = {
 
 const AgentReg = () => {
   const { register, handleSubmit, setValue, setError, formState: { errors }, trigger } = useForm({
+    mode: "onChange",
+    reValidateMode: "onSubmit",
     defaultValues: {
       name: '',
       mobileNumber: '',
@@ -27,7 +29,7 @@ const AgentReg = () => {
       wardNumber: '',
       cdsName: '',
       photo: null,
-    }
+    },
   });
 
   const [step, setStep] = useState(1);
@@ -128,8 +130,7 @@ const AgentReg = () => {
                />
              {errors.name &&<p className="error-ag">{errors.name.message}</p>}
            </div>
-            
-            <div className="mb-4">
+           <div className="mb-4">
               <label htmlFor="mobileNumber" className="input-label-ag">Please enter your mobile number</label>
               <input 
                   id="mobileNumber" 
