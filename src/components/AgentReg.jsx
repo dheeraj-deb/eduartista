@@ -12,7 +12,7 @@ const stepFields = {
 
 
 const AgentReg = () => {
-  const { register, handleSubmit, setValue, setError, formState: { errors }, trigger } = useForm({
+  const { register, handleSubmit, setValue, setError, formState: { errors, isDirty, isValid }, trigger } = useForm({
     mode: "onChange",
     reValidateMode: "onSubmit",
     defaultValues: {
@@ -318,6 +318,7 @@ const AgentReg = () => {
 
         {step === 3 && (
           <>
+           <div className="h-80 overflow-y-scroll custom-scrollbar px-2">
             <div className='mb-4'>
               <label htmlFor="punchayathMunicipality" className="input-label-ag">Punchayath/Municipality</label>
               <input 
@@ -397,12 +398,12 @@ const AgentReg = () => {
                   audio={false}
                   ref={webcamRef}
                   screenshotFormat="image/jpeg"
-                  className="w-full max-w-[320px] h-auto max-h-[240px] shadow-xl mb-4 border-[#11111136] border-2 rounded-lg"
+                  className="w-full max-w-[200px] h-auto max-h-[200px] shadow-xl mb-4 border-[#11111136] border-2 rounded-lg"
                   videoConstraints={{ facingMode: "user" }}
                 />
               ) : (
                 photo && (                
-                    <img src={photo} alt="Captured" className="w-full max-w-[320px] h-auto max-h-[240px] shadow-xl mb-4 border-[#11111136] border-2 rounded-lg" />
+                    <img src={photo} alt="Captured" className=" max-w-[200] max-h-[200px] shadow-xl mb-4 border-[#11111136] border-2 rounded-lg" />
                 )
               )}
                </div>
@@ -418,6 +419,7 @@ const AgentReg = () => {
                 </div>
               </div>             
             </div>
+            </div>
           </>
         )}
 
@@ -427,13 +429,22 @@ const AgentReg = () => {
             <button
               onClick={nextStep}
               type="button"
-              className="px-6 py-2 my-1 rounded-full bg-[#11111136] text-white "
+              disabled={!isDirty || !isValid}
+              className={`px-6 py-2 my-1 rounded-full text-white  text-lg font-semibold tracking-wide shadow-md ${
+                !isDirty || !isValid ? 'bg-[#11111136]' : 'bg-[#111111]'
+              }`}
             >
               Next
             </button>
           )}
           {step === 3 && (
-            <button type="submit" className="px-6 py-2 my-1 rounded-full bg-[#11111136] text-white ">
+            <button 
+               type="submit" 
+               disabled={!photo || !isValid }
+               className={`px-6 py-2 my-1 rounded-full text-white text-lg font-semibold tracking-wide shadow-md ${
+                !photo || !isValid  ? 'bg-[#11111136]' : 'bg-[#111111]'
+               }`}
+              >
               Submit
             </button>
           )}
