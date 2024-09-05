@@ -6,7 +6,9 @@ const AgentLogin = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState('');
   const [isOtpVerified, setIsOtpVerified] = useState(false);
-  
+  const [countdown, setCountdown] = useState(0);
+  const [buttonText, setButtonText] = useState('Verify OTP');
+
   const inputRefs = useRef([]);
 
   useEffect(() => {
@@ -14,6 +16,21 @@ const AgentLogin = () => {
       inputRefs.current[0].focus();
     }
   }, [otpSent]);
+
+  // Countdown timer for OTP resend
+  useEffect(() => {
+    let timer;
+    if (countdown > 0) {
+      timer = setInterval(() => {
+        setCountdown(prev => prev - 1);
+      }, 1000);
+    } else if (countdown === 0 && otpSent) {
+      setButtonText('Resend OTP');
+      setMessage('You can now request a new OTP.');
+    }
+    return () => clearInterval(timer);
+  }, [countdown, otpSent]);
+
 
   // Validate mobile number and set message
   const validateMobileNumber = (number) => {
@@ -30,18 +47,19 @@ const AgentLogin = () => {
   };
 
   const handleSendOtp = async () => {
-    if (!validateMobileNumber(mobileNumber)) return;
-
-    // Call the backend API to send OTP
+    if (!validateMobileNumber(mobileNumber)) return; // Validate mobile number before sending OTP
+  
     try {
       const response = await fetch('/api/send-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mobileNumber }),
       });
-
+  
       if (response.ok) {
         setOtpSent(true);
+        setCountdown(60); // Start countdown timer for 1 minute
+        setButtonText('Verify OTP'); // Reset button text
         setMessage('OTP sent successfully!');
       } else {
         setMessage('Failed to send OTP. Try again later.');
@@ -50,7 +68,26 @@ const AgentLogin = () => {
       setMessage('Error sending OTP. Please try again.');
     }
   };
-
+  
+  const handleResendOtp = async () => {
+    try {
+      const response = await fetch('/api/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobileNumber }),
+      });
+  
+      if (response.ok) {
+        setCountdown(60); // Reset countdown timer for 1 minute
+        setMessage('OTP resent successfully!');
+      } else {
+        setMessage('Failed to resend OTP. Try again later.');
+      }
+    } catch (error) {
+      setMessage('Error resending OTP. Please try again.');
+    }
+  };
+  
   const handleOtpChange = (e, index) => {
     const value = e.target.value;
     if (/^[0-9]?$/.test(value)) {
@@ -150,14 +187,18 @@ const AgentLogin = () => {
               />
             ))}
           </div>
-          <p className='error-ag'>{message}</p>
+          <p className='error-ag text-center'>{message}</p>
+          <p className="mt-4 text-center text-black text-sm">
+            {countdown > 0 ? `Resend OTP in ${Math.floor(countdown / 60)}:${countdown % 60 < 10 ? '0' : ''}${countdown % 60}` : 'You can request a new OTP now.'}
+          </p>
           <button 
-             onClick={handleVerifyOtp}
-             disabled={!areOtpFieldsFilled()}  
+             onClick={buttonText === 'Verify OTP' ? handleVerifyOtp : handleResendOtp}
+             disabled={buttonText === 'Verify OTP' ? !areOtpFieldsFilled() : countdown > 0}
              className={`w-full px-6 py-1 my-3 rounded-full text-white text-md font-semibold tracking-wide shadow-md 
-              ${areOtpFieldsFilled() ? 'bg-[#111111] cursor-pointer' : 'bg-[#11111136] cursor-not-allowed'}`}
-             >Verify OTP
-             </button>
+               ${buttonText === 'Verify OTP' ? (areOtpFieldsFilled() ? 'bg-[#111111] cursor-pointer' : 'bg-[#11111136] cursor-not-allowed') : (countdown > 0 ? 'bg-[#11111136] cursor-not-allowed' : 'bg-[#111111] cursor-pointer')}`}
+          >
+           {buttonText}
+          </button>
         </>
       )}
     </div>
