@@ -141,15 +141,12 @@ const AgentReg = () => {
                       value:10,
                       message:"Mobile number must be exactly 10 digits."
                     },
-                    maxLength: {
-                      value:10,
-                      message:"Mobile number  must be exactly 10 digits.",
-                    },
                     pattern: {
                       value: /^[6-9]\d{9}$/,
                       message: 'Please enter a valid mobile number'
                     }
                   })} 
+                  maxLength={10}
                   placeholder='Enter your 10 digit mobile number'
                   className="input-box-ag"
               />
@@ -234,6 +231,7 @@ const AgentReg = () => {
                       message: 'Pincode must be exactly 6 digits.'
                     } 
                     })} 
+                  maxLength={6}
                   placeholder='Enter your pincode'
                   className="input-box-ag"  />
               {errors.pincode && <p className='error-ag'>{errors.pincode.message}</p>}
@@ -359,6 +357,7 @@ const AgentReg = () => {
                     }
                   })} 
                   placeholder='Enter your ward Number'
+                  maxLength={2}
                   className="input-box-ag" />
               {errors.wardNumber && <p className='error-ag'>{errors.wardNumber.message}</p>}
             </div>
@@ -431,7 +430,7 @@ const AgentReg = () => {
               type="button"
               disabled={!isDirty || !isValid}
               className={`px-6 py-2 my-1 rounded-full text-white  text-lg font-semibold tracking-wide shadow-md ${
-                !isDirty || !isValid ? 'bg-[#11111136]' : 'bg-[#111111]'
+                !isDirty || !isValid ? 'bg-[#11111136] cursor-not-allowed' : 'bg-[#111111] cursor-pointer'
               }`}
             >
               Next
@@ -442,7 +441,7 @@ const AgentReg = () => {
                type="submit" 
                disabled={!photo || !isValid }
                className={`px-6 py-2 my-1 rounded-full text-white text-lg font-semibold tracking-wide shadow-md ${
-                !photo || !isValid  ? 'bg-[#11111136]' : 'bg-[#111111]'
+                !photo || !isValid  ? 'bg-[#11111136] cursor-not-allowed' : 'bg-[#111111] cursor-pointer'
                }`}
               >
               Submit
