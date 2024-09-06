@@ -4,6 +4,27 @@
 
 
 
+/* Custom scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+   width: 3px; /* Adjust width as needed */
+ }
+ 
+ .custom-scrollbar::-webkit-scrollbar-thumb {
+   background-color: #000; /* Black color */
+   border-radius: 12px; /* Rounded corners */
+ }
+ 
+ .custom-scrollbar::-webkit-scrollbar-track {
+   background: #ccc; 
+   border-radius: 12px;
+ }
+ 
+ /* Hide the scrollbar arrows (default behavior on WebKit browsers) */
+ .custom-scrollbar::-webkit-scrollbar-button {
+   display: none; /* Hides the up and down buttons */
+ }
+
+
 @layer components {
 
     .input-label-ag {
