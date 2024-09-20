@@ -6,12 +6,16 @@ import Profile from "./Profile";
 import { Link, useLocation } from "react-router-dom";
 import useCart from "../hooks/useCart";
 import useAuth from "../hooks/useAuth";
+import { AuthContext } from "../contexts/AuthProvider";
+import { loginContext } from "../layout/Main";
 
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false);
   const { user, loading } = useAuth();
   const [cart, refetch] = useCart();
-  const location = useLocation(); // Get current path
+  const location = useLocation();
+  const { token, logout } = useContext(loginContext);
+  // Get current path
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,6 +34,8 @@ const Navbar = () => {
     };
   }, []);
 
+  console.log("token", token);
+
   const navItems = (
     <>
       <li
@@ -42,22 +48,22 @@ const Navbar = () => {
           location.pathname === "/menu" ? "text-blue-500" : "black"
         }`}
       >
-        <Link to="/product-listing">All Products</Link>
+        <Link to="/">All Products</Link>
       </li>
       <li
         className={`${
           location.pathname === "/subscription" ? "text-blue-500" : "black"
         }`}
       >
-        <Link to="/subscription">Subscription</Link>
+        <Link to="/">Subscription</Link>
       </li>
-      <li
+      {/* <li
         className={`${
           location.pathname === "/affiliate" ? "text-blue-500" : "black"
         }`}
       >
         <Link to="/affiliate">Register as agent</Link>
-      </li>
+      </li> */}
 
       {/* <li
         className={`${
@@ -112,14 +118,8 @@ const Navbar = () => {
               {navItems}
             </ul>
           </div>
-          <a href="/">
-            <img
-              src={
-                "https://eduguard-html.netlify.app/dist/images/logo/logo.png"
-              }
-              alt=""
-              className="w-[110px]"
-            />
+          <a href="">
+            <img src={"public/logo.jpg"} alt="" className="w-[110px]" />
           </a>
         </div>
 
@@ -170,10 +170,17 @@ const Navbar = () => {
             </>
           ) : (
             <button
-              onClick={() => document.getElementById("my_modal_5").showModal()}
+              onClick={() => {
+                if (token) {
+                  logout();
+                } else {
+                  document.getElementById("my_modal_5").showModal();
+                }
+              }}
               className="btn flex items-center min-h-5 gap-2 px-6 py-2 border-none rounded-md bg-[#202029] text-white hover:bg-[#1089ff]"
             >
-              <FaRegUser /> Login
+              <FaRegUser />
+              {token ? "Logout" : "Login"}
             </button>
           )}
           <Modal />

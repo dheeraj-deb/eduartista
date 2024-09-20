@@ -15,14 +15,14 @@ const Categories = () => {
                 "url(https://as2.ftcdn.net/v2/jpg/02/41/55/49/1000_F_241554919_aR4WafsD153xMBVuQKqXXIRxSixLfMV5.jpg)",
             }}
           >
-            <div className="bg-black bg-opacity-20 min-h-150 px-10 flex flex-wrap flex-col pt-96 hover:bg-opacity-75 transform duration-300">
+            <div className="bg-black bg-opacity-20 min-h-150 px-10 flex flex-wrap flex-col pt-96 hover:bg-opacity-75 transform duration-300 h-full">
               <h1 className="text-white text-3xl mb-5 transform translate-y-20 group-hover:translate-y-0 duration-300">
-                Fashion Magazine
+                Kiddista Magazine
               </h1>
               <div className="w-16 h-2 bg-yellow-500 rounded-full mb-5 transform translate-y-20 group-hover:translate-y-0 duration-300"></div>
               <p className="opacity-0 text-white text-xl group-hover:opacity-80 transform duration-500">
-                Trendy styles, celebrity fashion, and expert tips for chic looks
-                and runway inspiration.
+                Kiddista: The Monthly educational comic magazine for kids (Ages
+                3-7)
               </p>
             </div>
           </article>
@@ -34,14 +34,13 @@ const Categories = () => {
                 "url(https://as2.ftcdn.net/v2/jpg/02/95/48/59/1000_F_295485945_TtDDon8GSBqB7wbRCCtHLPwWH6NcMWwg.jpg)",
             }}
           >
-            <div className="bg-black bg-opacity-20 min-h-150 px-10 flex flex-wrap flex-col pt-96 hover:bg-opacity-75 transform duration-300">
+            <div className="bg-black bg-opacity-20 min-h-150 px-10 flex flex-wrap flex-col pt-96 hover:bg-opacity-75 transform duration-300 h-full">
               <h1 className="text-white text-3xl mb-5 transform translate-y-20 group-hover:translate-y-0 duration-300">
-                Travel Magazine
+                Junior Magazine
               </h1>
               <div className="w-16 h-2 bg-orange-500 rounded-full mb-5 transform translate-y-20 group-hover:translate-y-0 duration-300"></div>
               <p className="opacity-0 text-white text-xl group-hover:opacity-80 transform duration-500">
-                Stunning destinations, travel guides, and adventure stories to
-                fuel your wanderlust.
+                Junior Magazine: A World of Learning for Older Kids (Ages 7-12)
               </p>
             </div>
           </article>
@@ -53,14 +52,13 @@ const Categories = () => {
                 "url(https://as2.ftcdn.net/v2/jpg/04/81/12/53/1000_F_481125398_sBKxpqGYZpF9YgiFs4yNkK7v8o8Y0twB.jpg)",
             }}
           >
-            <div className="bg-black bg-opacity-20 min-h-150 px-10 flex flex-wrap flex-col pt-96 hover:bg-opacity-75 transform duration-300">
+            <div className="bg-black bg-opacity-20 min-h-150 px-10 flex flex-wrap flex-col pt-96 hover:bg-opacity-75 transform duration-300 ">
               <h1 className="text-white text-3xl mb-5 transform translate-y-20 group-hover:translate-y-0 duration-300">
-                Technology Magazine
+                Explore Our Educational Insights
               </h1>
-              <div className="w-16 h-2 bg-red-500 rounded-full mb-5 transform translate-y-20 group-hover:translate-y-0 duration-300"></div>
+              <div className="w-16 h-2 bg-orange-500 rounded-full mb-10 transform translate-y-20 group-hover:translate-y-0 duration-300"></div>
               <p className="opacity-0 text-white text-xl group-hover:opacity-80 transform duration-500">
-                Latest gadgets, tech trends, and innovation insights for staying
-                ahead in the digital world.
+                The Importance of Early Childhood Education
               </p>
             </div>
           </article>

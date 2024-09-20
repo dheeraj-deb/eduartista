@@ -23,6 +23,7 @@ import Product_Base from "../pages/productListing";
 import ProductDetails from "../pages/product/indext";
 import AgentSignup from "../components/AgentSignup";
 import Subscription from "../pages/Subscription";
+import AgentTable from "../pages/admin/agent";
 
 const router = createBrowserRouter([
   {
@@ -34,8 +35,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path:'/subscription',
-        element:<Subscription/>
+        path: "/subscription",
+        element: <Subscription />,
       },
       // {
       //   path: "/menu",
@@ -46,12 +47,12 @@ const router = createBrowserRouter([
         element: <ProductDetails />,
       },
       {
-        path:"/affiliate",
-        element:<Affiliate/>
+        path: "/affiliate",
+        element: <Affiliate />,
       },
       {
-        path:"product-listing",
-        element:<Product_Base/>
+        path: "product-listing",
+        element: <Product_Base />,
       },
       // {
       //   path: "/order",
@@ -84,6 +85,24 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: "admin",
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: "",
+        element: <Dashboard />,
+      },
+      {
+        path: "agent",
+        element: <AgentTable />,
+      },
+      {
+        path: "user",
+        element: <Users />,
+      },
+    ],
+  },
+  {
     path: "/signup",
     element: <Signup />,
   },
@@ -91,10 +110,10 @@ const router = createBrowserRouter([
     path: "/agent-signup",
     element: <AgentSignup />,
   },
-  {
-    path: "/login",
-    element: <Login />,
-  },
+  // {
+  //   path: "/login",
+  //   element: <Login />,
+  // },
   {
     path: "dashboard",
     element: (

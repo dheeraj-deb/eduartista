@@ -3,7 +3,7 @@ import AgentReg from "./AgentReg";
 import AgentLogin from "./AgentLogin";
 
 const Modal = () => {
-  const [activeTab, setActiveTab] = useState("User");
+  const [activeTab, setActiveTab] = useState("Agent");
   const [isLoginForm, setIsLoginForm] = useState(true);
 
   const toggleSignInForm = () => {
@@ -17,7 +17,7 @@ const Modal = () => {
           <div className="modal-header">
             <div className="flex justify-center items-center">
               <div
-                className="flex-1 flex justify-center items-center py-2 rounded-l-[8px] cursor-pointer transition duration-300"
+                className="flex-1 flex justify-center items-center py-2 rounded-l-[8px] cursor-pointer transition duration-300 pointer-events-none opacity-50 cursor-not-allowed"
                 style={{
                   backgroundColor:
                     activeTab === "User" ? "#111111" : "rgba(17, 17, 17, 0.21)",
@@ -75,25 +75,30 @@ const Modal = () => {
               <div>
                 <div>
                   <h2 className="text-center text-black text-xl font-bold mt-3">
-                   {isLoginForm ? "Log in" : "Sign up"}
+                    {isLoginForm ? "Log in" : "Sign up"}
                   </h2>
-                  <p className="text-center text-black text-xs cursor-pointer" onClick={toggleSignInForm}>
-                  {isLoginForm ? (
-                                    <>
-                                     {`Don't have an account? `}
-                                     <span className="underline no-skip-ink ">Sign up</span>
-                                    </>
-
-                                 ) : (
-                                       <>
-                                        {`Already have an account? `}
-                                        <span className="underline no-skip-ink ">Log in</span>
-                                       </>
-                                  )
-                   }
+                  <p
+                    className="text-center text-black text-xs cursor-pointer"
+                    onClick={toggleSignInForm}
+                  >
+                    {isLoginForm ? (
+                      <>
+                        {`Don't have an account? `}
+                        <span className="underline no-skip-ink ">Sign up</span>
+                      </>
+                    ) : (
+                      <>
+                        {`Already have an account? `}
+                        <span className="underline no-skip-ink ">Log in</span>
+                      </>
+                    )}
                   </p>
                 </div>
-                {isLoginForm ? <AgentLogin /> : <AgentReg /> }
+                {isLoginForm ? (
+                  <AgentLogin setIsLoginForm={setIsLoginForm} />
+                ) : (
+                  <AgentReg setIsLoginForm={setIsLoginForm} />
+                )}
               </div>
             )}
           </div>

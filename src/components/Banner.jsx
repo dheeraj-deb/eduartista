@@ -22,7 +22,7 @@ const Banner = () => {
               and enrich your mind. With us, learning becomes an inspiring
               journey accessible to all. Empower yourself with EduArtista.it
             </p>
-            <a href="/menu">
+            <a href="/">
               <button className="bg-yellow-300 shadow-2xl  text-slate-700 px-8 py-3 hover:bg-yellow-500  font-semibold mt-8 rounded-full hover:shadow-none hover:bg-green-600 transition-all duration-300">
                 Order Now
               </button>

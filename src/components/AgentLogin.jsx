@@ -1,13 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useMutation } from "@apollo/client";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { AGENT_LOGIN, VERIFY_OTP } from "../graphql/query/auth";
+import { AuthContext } from "../contexts/AuthProvider";
+import { loginContext } from "../layout/Main";
 
-const AgentLogin = () => {
-  const [mobileNumber, setMobileNumber] = useState('');
-  const [otp, setOtp] = useState(['', '', '', '']);
+const AgentLogin = ({ setIsLoginForm }) => {
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [otp, setOtp] = useState(["", "", "", ""]);
   const [otpSent, setOtpSent] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [isOtpVerified, setIsOtpVerified] = useState(false);
   const [countdown, setCountdown] = useState(0);
-  const [buttonText, setButtonText] = useState('Verify OTP');
+  const [buttonText, setButtonText] = useState("Verify OTP");
+
+  const { login } = useContext(loginContext);
+
+  const [sendOtp] = useMutation(AGENT_LOGIN);
+  const [verifyOtp] = useMutation(VERIFY_OTP);
 
   const inputRefs = useRef([]);
 
@@ -22,20 +31,19 @@ const AgentLogin = () => {
     let timer;
     if (countdown > 0) {
       timer = setInterval(() => {
-        setCountdown(prev => prev - 1);
+        setCountdown((prev) => prev - 1);
       }, 1000);
     } else if (countdown === 0 && otpSent) {
-      setButtonText('Resend OTP');
-      setMessage('You can now request a new OTP.');
+      setButtonText("Resend OTP");
+      setMessage("You can now request a new OTP.");
     }
     return () => clearInterval(timer);
   }, [countdown, otpSent]);
 
-
   // Validate mobile number and set message
   const validateMobileNumber = (number) => {
     const isValid = /^[6-9]\d{9}$/.test(number);
-    setMessage(isValid ? '' : 'Please enter a valid 10-digit number.');
+    setMessage(isValid ? "" : "Please enter a valid 10-digit number.");
     return isValid;
   };
 
@@ -48,46 +56,67 @@ const AgentLogin = () => {
 
   const handleSendOtp = async () => {
     if (!validateMobileNumber(mobileNumber)) return; // Validate mobile number before sending OTP
-  
+
     try {
-      const response = await fetch('/api/send-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mobileNumber }),
-      });
-  
-      if (response.ok) {
+      // const response = await fetch('/api/send-otp', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ mobileNumber }),
+      // });
+
+      // if (response.ok) {
+      //   setOtpSent(true);
+      //   setCountdown(60); // Start countdown timer for 1 minute
+      // Reset button text
+      //   setMessage('OTP sent successfully!');
+      // } else {
+      //   setMessage('Failed to send OTP. Try again later.');
+      // }
+
+      sendOtp({
+        variables: { input: { mobileNumber: `+91${mobileNumber}` } },
+      }).then((res) => {
         setOtpSent(true);
-        setCountdown(60); // Start countdown timer for 1 minute
-        setButtonText('Verify OTP'); // Reset button text
-        setMessage('OTP sent successfully!');
-      } else {
-        setMessage('Failed to send OTP. Try again later.');
-      }
+        setCountdown(60);
+        setButtonText("Verify OTP");
+        setMessage("OTP sent successfully!");
+      });
     } catch (error) {
-      setMessage('Error sending OTP. Please try again.');
+      setMessage("Error sending OTP. Please try again.");
     }
   };
-  
+
   const handleResendOtp = async () => {
     try {
-      const response = await fetch('/api/send-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mobileNumber }),
-      });
-  
-      if (response.ok) {
-        setCountdown(60); // Reset countdown timer for 1 minute
-        setMessage('OTP resent successfully!');
-      } else {
-        setMessage('Failed to resend OTP. Try again later.');
-      }
+      // const response = await fetch("/api/send-otp", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ mobileNumber }),
+      // });
+
+      // if (response.ok) {
+      //   setCountdown(60); // Reset countdown timer for 1 minute
+      //   setMessage("OTP resent successfully!");
+      // } else {
+      //   setMessage("Failed to resend OTP. Try again later.");
+      // }
+
+      sendOtp({
+        variables: { input: { mobileNumber: `+91${mobileNumber}` } },
+      })
+        .then((res) => {
+          setCountdown(60);
+          setButtonText("Verify OTP");
+          setMessage("OTP resent successfully!");
+        })
+        .catch((err) => {
+          setMessage("Failed to resend OTP. Try again later.");
+        });
     } catch (error) {
-      setMessage('Error resending OTP. Please try again.');
+      setMessage("Error resending OTP. Please try again.");
     }
   };
-  
+
   const handleOtpChange = (e, index) => {
     const value = e.target.value;
     if (/^[0-9]?$/.test(value)) {
@@ -103,15 +132,15 @@ const AgentLogin = () => {
   };
 
   const handleOtpKeyDown = (e, index) => {
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
       inputRefs.current[index - 1].focus();
     }
   };
 
   const handleOtpPaste = (e) => {
-    const pastedData = e.clipboardData.getData('Text').slice(0, 4);
+    const pastedData = e.clipboardData.getData("Text").slice(0, 4);
     if (/^\d{4}$/.test(pastedData)) {
-      const newOtp = pastedData.split('');
+      const newOtp = pastedData.split("");
       setOtp(newOtp);
 
       // Focus the last input after pasting
@@ -120,36 +149,51 @@ const AgentLogin = () => {
   };
 
   const handleVerifyOtp = async () => {
-    const fullOtp = otp.join('');
+    const fullOtp = otp.join("");
 
     // Call the backend API to verify OTP
     try {
-      const response = await fetch('/api/verify-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mobileNumber, otp: fullOtp }),
-      });
+      // const response = await fetch("/api/verify-otp", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ mobileNumber, otp: fullOtp }),
+      // });
 
-      if (response.ok) {
-        setMessage('OTP verified successfully! You are now logged in.');
-        setIsOtpVerified(true); // Disable OTP inputs on successful verification
-      } else {
-        setMessage('Invalid OTP. Please try again.');
-      }
+      // if (response.ok) {
+      //   setMessage("OTP verified successfully! You are now logged in.");
+      //   setIsOtpVerified(true); // Disable OTP inputs on successful verification
+      // } else {
+      //   setMessage("Invalid OTP. Please try again.");
+      // }
+
+      verifyOtp({
+        variables: {
+          input: { mobileNumber: `+91${mobileNumber}`, otp: fullOtp },
+        },
+      }).then((res) => {
+        console.log("res", res);
+        setMessage("OTP verified successfully! You are now logged in.");
+        setIsOtpVerified(true);
+
+        document.getElementById("my_modal_5").close();
+        login(res?.data?.agentVerifyOtp?.token);
+      });
     } catch (error) {
-      setMessage('Error verifying OTP. Please try again.');
+      setMessage("Error verifying OTP. Please try again.");
     }
   };
 
   // Check if all OTP fields are filled
-  const areOtpFieldsFilled = () => otp.every(digit => digit !== '');
+  const areOtpFieldsFilled = () => otp.every((digit) => digit !== "");
   console.log(otp);
 
   return (
     <div className="mt-8">
       {!otpSent ? (
         <>
-          <label htmlFor="mobileNumber" className='input-label-ag'>Mobile Number</label>
+          <label htmlFor="mobileNumber" className="input-label-ag">
+            Mobile Number
+          </label>
           <input
             type="text"
             id="mobileNumber"
@@ -159,20 +203,26 @@ const AgentLogin = () => {
             maxLength={10}
             placeholder="Enter your mobile number"
           />
-          <p className='error-ag'>{message}</p>
-          <button 
+          <p className="error-ag">{message}</p>
+          <button
             onClick={handleSendOtp}
             disabled={!/^[6-9]\d{9}$/.test(mobileNumber)}
             className={`w-full px-6 py-1 my-3 rounded-full text-white  text-md font-semibold tracking-wide shadow-md 
-              ${/^[6-9]\d{9}$/.test(mobileNumber) ? ' bg-[#111111] cursor-pointer' : 'bg-[#11111136] cursor-not-allowed'}`}
+              ${
+                /^[6-9]\d{9}$/.test(mobileNumber)
+                  ? " bg-[#111111] cursor-pointer"
+                  : "bg-[#11111136] cursor-not-allowed"
+              }`}
           >
             Send OTP
           </button>
         </>
       ) : (
         <>
-          <label htmlFor="otp" className='input-label-ag'>Enter OTP</label>
-          <div className='flex justify-center' onPaste={handleOtpPaste}>
+          <label htmlFor="otp" className="input-label-ag">
+            Enter OTP
+          </label>
+          <div className="flex justify-center" onPaste={handleOtpPaste}>
             {otp.map((digit, index) => (
               <input
                 key={index}
@@ -187,17 +237,35 @@ const AgentLogin = () => {
               />
             ))}
           </div>
-          <p className='error-ag text-center'>{message}</p>
+          <p className="error-ag text-center">{message}</p>
           <p className="mt-4 text-center text-black text-sm">
-            {countdown > 0 ? `Resend OTP in ${Math.floor(countdown / 60)}:${countdown % 60 < 10 ? '0' : ''}${countdown % 60}` : 'You can request a new OTP now.'}
+            {countdown > 0
+              ? `Resend OTP in ${Math.floor(countdown / 60)}:${
+                  countdown % 60 < 10 ? "0" : ""
+                }${countdown % 60}`
+              : "You can request a new OTP now."}
           </p>
-          <button 
-             onClick={buttonText === 'Verify OTP' ? handleVerifyOtp : handleResendOtp}
-             disabled={buttonText === 'Verify OTP' ? !areOtpFieldsFilled() : countdown > 0}
-             className={`w-full px-6 py-1 my-3 rounded-full text-white text-md font-semibold tracking-wide shadow-md 
-               ${buttonText === 'Verify OTP' ? (areOtpFieldsFilled() ? 'bg-[#111111] cursor-pointer' : 'bg-[#11111136] cursor-not-allowed') : (countdown > 0 ? 'bg-[#11111136] cursor-not-allowed' : 'bg-[#111111] cursor-pointer')}`}
+          <button
+            onClick={
+              buttonText === "Verify OTP" ? handleVerifyOtp : handleResendOtp
+            }
+            disabled={
+              buttonText === "Verify OTP"
+                ? !areOtpFieldsFilled()
+                : countdown > 0
+            }
+            className={`w-full px-6 py-1 my-3 rounded-full text-white text-md font-semibold tracking-wide shadow-md 
+               ${
+                 buttonText === "Verify OTP"
+                   ? areOtpFieldsFilled()
+                     ? "bg-[#111111] cursor-pointer"
+                     : "bg-[#11111136] cursor-not-allowed"
+                   : countdown > 0
+                   ? "bg-[#11111136] cursor-not-allowed"
+                   : "bg-[#111111] cursor-pointer"
+               }`}
           >
-           {buttonText}
+            {buttonText}
           </button>
         </>
       )}

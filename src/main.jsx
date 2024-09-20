@@ -10,13 +10,16 @@ import {
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
+import ApolloProviderComponent from "./ApolloProvider.jsx";
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <AuthProvider>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  </AuthProvider>
+  <ApolloProviderComponent>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </AuthProvider>
+  </ApolloProviderComponent>
 );

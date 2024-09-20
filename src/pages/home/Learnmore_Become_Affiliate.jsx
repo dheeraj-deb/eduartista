@@ -26,7 +26,7 @@ function Learnmore_Become_Affiliate() {
               link. There is no limit on how much you can earn!
             </p>
             <br />
-            <Link to="/Affiliate">
+            <Link to="/">
               <a>
                 <button type="button" className="btn text-sm btn-lg">
                   <b>Learn More And Become An Agent</b>
