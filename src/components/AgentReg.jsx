@@ -5,6 +5,7 @@ import { useMutation } from "@apollo/client";
 import { AGENT_REGISTRATION } from "../graphql/query/auth";
 import { toast } from "react-toastify";
 import { loginContext } from "../layout/Main";
+import jsPDF from "jspdf";
 
 const stepFields = {
   1: ["name", "mobileNumber", "dob"],
@@ -74,6 +75,69 @@ const AgentReg = ({ setIsLoginForm }) => {
     }
   }, [step, trigger]);
 
+  const downloadPDF = (name, agentId, profile) => {
+    const doc = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+    });
+
+    // Define card size and positioning
+    const cardSize = 100; // Size of the ID card
+    const centerX = (doc.internal.pageSize.width - cardSize) / 2;
+    const centerY = (doc.internal.pageSize.height - cardSize) / 2;
+
+    // Draw card background
+    doc.setFillColor(255, 255, 255); // White background
+    doc.rect(centerX, centerY, cardSize, cardSize, "F");
+
+    // Add title
+    doc.setFontSize(16);
+    doc.text("VIRTUAL ID CARD", centerX + cardSize / 2, centerY + 10, {
+      align: "center",
+    });
+
+    // Add profile image
+    const imgData = profile; // This should be a base64 string or image URL
+    const img = new Image();
+    img.src = imgData;
+
+    img.onload = () => {
+      // Create a circular clipping path
+      const radius = 30; // Radius for the rounded image
+      const imgX = centerX + (cardSize - radius * 2) / 2; // X position for the image
+      const imgY = centerY + 20; // Y position for the image
+
+      // Draw the clipping path
+      doc.ellipse(imgX + radius, imgY + radius, radius, radius, "F"); // Clip area
+      doc.addImage(imgData, "JPEG", imgX, imgY, radius * 2, radius * 2); // Draw image
+
+      // Add name and agent ID
+      doc.setFontSize(14);
+      doc.text(`Name: ${name}`, centerX + cardSize / 2, centerY + 90, {
+        align: "center",
+      });
+      doc.text(`Agent ID: ${agentId}`, centerX + cardSize / 2, centerY + 100, {
+        align: "center",
+      });
+
+      // Save the PDF
+      doc.save("virtual-id-card.pdf");
+    };
+
+    img.onerror = () => {
+      // If the image fails to load, save the PDF without it
+      doc.setFontSize(14);
+      doc.text(`Name: ${name}`, centerX + cardSize / 2, centerY + 90, {
+        align: "center",
+      });
+      doc.text(`Agent ID: ${agentId}`, centerX + cardSize / 2, centerY + 100, {
+        align: "center",
+      });
+      doc.save("virtual-id-card.pdf");
+    };
+  };
+
   // Handle form submission
   const onSubmit = async (data) => {
     if (step === 3 && !photo) {
@@ -95,6 +159,8 @@ const AgentReg = ({ setIsLoginForm }) => {
         setIsLoginForm(true);
         document.getElementById("my_modal_5").close();
         login(res?.data?.createAgent?.token);
+        const agent = res?.data?.createAgent?.agent;
+        downloadPDF(agent.name, agent.agentID, agent.photo);
       })
       .catch((error) => {
         toast(error.message, { type: "error" });

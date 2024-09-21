@@ -20,6 +20,7 @@ export const AGENT_REGISTRATION = gql`
         wardNumber
         cdsName
         photo
+        agentID
       }
     }
   }
