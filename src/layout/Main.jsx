@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import { AuthContext } from "../contexts/AuthProvider";
 import LoadingSpinner from "../components/LoadingSpinner";
 
+
 export const loginContext = createContext();
 
 const Main = () => {
@@ -32,25 +33,26 @@ const Main = () => {
   const loginState = {
     token,
     login,
-    logout
+    logout,
   };
 
   return (
-    <loginContext.Provider value={loginState}>
-      <div className="bg-white h-full">
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
-          <div>
-            <Navbar />
-            <div className="min-h-screen">
-              <Outlet />
+
+      <loginContext.Provider value={loginState}>
+        <div className="bg-white h-full">
+          {loading ? (
+            <LoadingSpinner />
+          ) : (
+            <div>
+              <Navbar />
+              <div className="min-h-screen">
+                <Outlet />
+              </div>
+              <Footer />
             </div>
-            <Footer />
-          </div>
-        )}
-      </div>
-    </loginContext.Provider>
+          )}
+        </div>
+      </loginContext.Provider>
   );
 };
 

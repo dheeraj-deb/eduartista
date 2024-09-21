@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { AGENT_LOGIN, VERIFY_OTP } from "../graphql/query/auth";
 import { AuthContext } from "../contexts/AuthProvider";
 import { loginContext } from "../layout/Main";
+import { toast } from "react-toastify";
 
 const AgentLogin = ({ setIsLoginForm }) => {
   const [mobileNumber, setMobileNumber] = useState("");
@@ -58,29 +59,18 @@ const AgentLogin = ({ setIsLoginForm }) => {
     if (!validateMobileNumber(mobileNumber)) return; // Validate mobile number before sending OTP
 
     try {
-      // const response = await fetch('/api/send-otp', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ mobileNumber }),
-      // });
-
-      // if (response.ok) {
-      //   setOtpSent(true);
-      //   setCountdown(60); // Start countdown timer for 1 minute
-      // Reset button text
-      //   setMessage('OTP sent successfully!');
-      // } else {
-      //   setMessage('Failed to send OTP. Try again later.');
-      // }
-
       sendOtp({
         variables: { input: { mobileNumber: `+91${mobileNumber}` } },
-      }).then((res) => {
-        setOtpSent(true);
-        setCountdown(60);
-        setButtonText("Verify OTP");
-        setMessage("OTP sent successfully!");
-      });
+      })
+        .then((res) => {
+          setOtpSent(true);
+          setCountdown(60);
+          setButtonText("Verify OTP");
+          setMessage("OTP sent successfully!");
+        })
+        .catch((err) => {
+          toast(err.message, { type: "error" });
+        });
     } catch (error) {
       setMessage("Error sending OTP. Please try again.");
     }
@@ -88,19 +78,6 @@ const AgentLogin = ({ setIsLoginForm }) => {
 
   const handleResendOtp = async () => {
     try {
-      // const response = await fetch("/api/send-otp", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ mobileNumber }),
-      // });
-
-      // if (response.ok) {
-      //   setCountdown(60); // Reset countdown timer for 1 minute
-      //   setMessage("OTP resent successfully!");
-      // } else {
-      //   setMessage("Failed to resend OTP. Try again later.");
-      // }
-
       sendOtp({
         variables: { input: { mobileNumber: `+91${mobileNumber}` } },
       })
@@ -110,6 +87,7 @@ const AgentLogin = ({ setIsLoginForm }) => {
           setMessage("OTP resent successfully!");
         })
         .catch((err) => {
+          toast(err.message, { type: "error" });
           setMessage("Failed to resend OTP. Try again later.");
         });
     } catch (error) {
@@ -153,31 +131,22 @@ const AgentLogin = ({ setIsLoginForm }) => {
 
     // Call the backend API to verify OTP
     try {
-      // const response = await fetch("/api/verify-otp", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ mobileNumber, otp: fullOtp }),
-      // });
-
-      // if (response.ok) {
-      //   setMessage("OTP verified successfully! You are now logged in.");
-      //   setIsOtpVerified(true); // Disable OTP inputs on successful verification
-      // } else {
-      //   setMessage("Invalid OTP. Please try again.");
-      // }
-
       verifyOtp({
         variables: {
           input: { mobileNumber: `+91${mobileNumber}`, otp: fullOtp },
         },
-      }).then((res) => {
-        console.log("res", res);
-        setMessage("OTP verified successfully! You are now logged in.");
-        setIsOtpVerified(true);
+      })
+        .then((res) => {
+          console.log("res", res);
+          setMessage("OTP verified successfully! You are now logged in.");
+          setIsOtpVerified(true);
 
-        document.getElementById("my_modal_5").close();
-        login(res?.data?.agentVerifyOtp?.token);
-      });
+          document.getElementById("my_modal_5").close();
+          login(res?.data?.agentVerifyOtp?.token);
+        })
+        .catch((err) => {
+          toast(err.message, { type: "error" });
+        });
     } catch (error) {
       setMessage("Error verifying OTP. Please try again.");
     }

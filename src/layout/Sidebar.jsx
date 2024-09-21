@@ -1,9 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
-  const [activeTab, setActiveTab] = useState("Dashboard");
+  const [activeTab, setActiveTab] = useState("Manage Agents");
   const navigate = useNavigate(); // React Router hook for navigation
+
+  useEffect(() => {
+    // Set the active tab based on the current path
+    switch (window.location.pathname) {
+      case "/admin":
+        setActiveTab("Manage Agents");
+        navigate("/admin/agent");
+        break;
+    }
+  }, [navigate]);
 
   const tabs = [
     { name: "Dashboard", path: "/admin" },
@@ -13,6 +23,10 @@ const Sidebar = () => {
   ];
 
   const handleTabClick = (tab) => {
+    if (tab.name !== "Manage Agents") {
+      // Disable navigation for all tabs except "Manage Agents"
+      return;
+    }
     setActiveTab(tab.name);
     navigate(tab.path); // Navigate to the specified path
   };
@@ -26,10 +40,12 @@ const Sidebar = () => {
             key={tab.name}
             onClick={() => handleTabClick(tab)}
             className={`p-4 cursor-pointer hover:bg-gray-700 
-              transition-all duration-300 ease-in-out transform 
+              transition-all duration-300 ease-in-out transform
               ${
                 activeTab === tab.name
                   ? "bg-gray-600 text-gray-200 rounded-lg scale-105"
+                  : tab.name !== "Manage Agents"
+                  ? "cursor-not-allowed opacity-50"
                   : ""
               }`}
           >

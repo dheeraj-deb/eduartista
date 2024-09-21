@@ -1,19 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AgentReg from "./AgentReg";
 import AgentLogin from "./AgentLogin";
 
 const Modal = () => {
   const [activeTab, setActiveTab] = useState("Agent");
   const [isLoginForm, setIsLoginForm] = useState(true);
+  const modalRef = useRef(null);
 
   const toggleSignInForm = () => {
     setIsLoginForm(!isLoginForm);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        document.getElementById("my_modal_5").close();
+      }
+    };
+
+    // Add event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Cleanup listener on unmount
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [modalRef]);
+
   return (
     <dialog id="my_modal_5" className="modal modal-middle sm:modal-middle">
-      <div className="modal-box bg-white py-8 px-8">
-        <div>
+      <div className="modal-box bg-white py-8 px-8" ref={modalRef}>
+        <div className="modal-content">
           <div className="modal-header">
             <div className="flex justify-center items-center">
               <div

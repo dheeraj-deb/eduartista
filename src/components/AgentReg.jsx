@@ -1,8 +1,10 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useContext } from "react";
 import Webcam from "react-webcam";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import { AGENT_REGISTRATION } from "../graphql/query/auth";
+import { toast } from "react-toastify";
+import { loginContext } from "../layout/Main";
 
 const stepFields = {
   1: ["name", "mobileNumber", "dob"],
@@ -12,6 +14,7 @@ const stepFields = {
 
 const AgentReg = ({ setIsLoginForm }) => {
   const [createAgent] = useMutation(AGENT_REGISTRATION);
+  const { login } = useContext(loginContext);
   const {
     register,
     handleSubmit,
@@ -86,9 +89,16 @@ const AgentReg = ({ setIsLoginForm }) => {
           mobileNumber: `+91${data.mobileNumber}`,
         },
       },
-    }).then((res) => {
-      setIsLoginForm(true);
-    });
+    })
+      .then((res) => {
+        console.log("Res", res);
+        setIsLoginForm(true);
+        document.getElementById("my_modal_5").close();
+        login(res?.data?.createAgent?.token);
+      })
+      .catch((error) => {
+        toast(error.message, { type: "error" });
+      });
     // Process form data (e.g., send to a server)
   };
 

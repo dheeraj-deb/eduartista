@@ -4,6 +4,7 @@ export const AGENT_REGISTRATION = gql`
   mutation CreateAgent($input: AgentInput!) {
     createAgent(input: $input) {
       message
+      token
       agent {
         id
         name

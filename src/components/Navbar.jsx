@@ -8,6 +8,8 @@ import useCart from "../hooks/useCart";
 import useAuth from "../hooks/useAuth";
 import { AuthContext } from "../contexts/AuthProvider";
 import { loginContext } from "../layout/Main";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false);
@@ -184,6 +186,7 @@ const Navbar = () => {
             </button>
           )}
           <Modal />
+          <ToastContainer />
         </div>
       </div>
     </header>
