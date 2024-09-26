@@ -22,6 +22,7 @@ const AgentReg = ({ setIsLoginForm }) => {
     handleSubmit,
     setValue,
     setError,
+    getValues,
     formState: { errors, isDirty, isValid },
     trigger,
   } = useForm({
@@ -43,7 +44,8 @@ const AgentReg = ({ setIsLoginForm }) => {
     },
   });
 
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
+  const [showOptions, setShowOptions] = useState(false);
   const [photo, setPhoto] = useState(null); // To store captured photo
   const [isWebcamVisible, setIsWebcamVisible] = useState(false); // Initially, the webcam is not visible
 
@@ -385,38 +387,44 @@ const AgentReg = ({ setIsLoginForm }) => {
                         "District  should start with a letter and only contain letters and spaces.",
                     },
                   })}
-                  placeholder='"Enter your district"'
+                  placeholder="Enter your district"
                   className="input-box-ag"
                 />
                 {errors.district && (
                   <p className="error-ag">{errors.district.message}</p>
                 )}
               </div>
-              <div className="mb-7">
+              <div className="mb-7 relative">
                  <label htmlFor="state" className="input-label-ag">
-                  State
+                   State
                  </label>
-                 <select
-                   id="state"
-                   {...register("state", {
-                     required: "State is required",
-                   })}
-                   className="input-box-ag cursor-pointer custom-scrollbar"
-                   defaultValue=""
-                 >
-                   <option value="" disabled>
-                     Select your state
-                  </option>
+                 <div
+                    className={`block bg-white w-full border border-[#11111136] rounded-lg px-3 py-2 cursor-pointer focus:border-black focus:ring-0 
+                                 ${getValues("state") ? "text-black" : "text-gray-500 text-sm"}`}
+                    onClick={() => setShowOptions(!showOptions)} 
+                  >
+                  {getValues("state") || "Select your state"}
+                  </div>
+                  {showOptions && (
+                   <div className="text-black text-sm absolute z-10 bg-white border border-[#11111136] rounded-lg mt-1 w-full max-h-44 overflow-y-auto custom-scrollbar">
                     {states.map((state) => (
-                    <option key={state} value={state}>
-                     {state}
-                  </option>
-                  ))}
-                  </select>
+                     <div
+                       key={state}
+                       className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                       onClick={() => {
+                         setValue("state", state); 
+                         setShowOptions(false); 
+                     }}
+                      >
+                      {state}
+                     </div>
+                   ))}
+                   </div>
+                 )}
                   {errors.state && (
                    <p className="error-ag">{errors.state.message}</p>
                   )}
-              </div>
+               </div>
             </div>
           </>
         )}
