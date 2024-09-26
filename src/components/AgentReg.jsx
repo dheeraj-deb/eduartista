@@ -6,10 +6,11 @@ import { AGENT_REGISTRATION } from "../graphql/query/auth";
 import { toast } from "react-toastify";
 import { loginContext } from "../layout/Main";
 import jsPDF from "jspdf";
+import { states } from "../utils/constants";
 
 const stepFields = {
   1: ["name", "mobileNumber", "dob"],
-  2: ["address", "postOffice", "pincode", "district", "state", "country"],
+  2: ["address", "postOffice", "pincode", "district", "state"],
   3: ["punchayathMunicipality", "wardNumber", "photo"],
 };
 
@@ -35,7 +36,6 @@ const AgentReg = ({ setIsLoginForm }) => {
       pincode: "",
       district: "",
       state: "",
-      country: "",
       punchayathMunicipality: "",
       wardNumber: "",
       cdsName: "",
@@ -43,7 +43,7 @@ const AgentReg = ({ setIsLoginForm }) => {
     },
   });
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
   const [photo, setPhoto] = useState(null); // To store captured photo
   const [isWebcamVisible, setIsWebcamVisible] = useState(false); // Initially, the webcam is not visible
 
@@ -237,7 +237,7 @@ const AgentReg = ({ setIsLoginForm }) => {
               </label>
               <input
                 id="mobileNumber"
-                type="text"
+                type="number"
                 {...register("mobileNumber", {
                   required: "Mobile Number is required",
                   minLength: {
@@ -345,7 +345,7 @@ const AgentReg = ({ setIsLoginForm }) => {
                   Pincode
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   id="pincode"
                   {...register("pincode", {
                     required: "Pincode is required",
@@ -392,65 +392,30 @@ const AgentReg = ({ setIsLoginForm }) => {
                   <p className="error-ag">{errors.district.message}</p>
                 )}
               </div>
-              <div className="mb-4">
-                <label htmlFor="state" className="input-label-ag">
-                  State
-                </label>
-                <input
-                  type="text"
-                  id="state"
-                  {...register("state", {
-                    required: "State is required",
-                    minLength: {
-                      value: 3,
-                      message: "State must be at least 3 characters long.",
-                    },
-                    maxLength: {
-                      value: 15,
-                      message: "State cannot be longer than 15 characters.",
-                    },
-                    pattern: {
-                      value: /^[a-zA-Z][a-zA-Z\s]*$/,
-                      message:
-                        "State  should start with a letter and only contain letters and spaces.",
-                    },
-                  })}
-                  placeholder="Enter your state"
-                  className="input-box-ag"
-                />
-                {errors.state && (
-                  <p className="error-ag">{errors.state.message}</p>
-                )}
-              </div>
               <div className="mb-7">
-                <label htmlFor="country" className="input-label-ag">
-                  Country
-                </label>
-                <input
-                  type="text"
-                  id="country"
-                  {...register("country", {
-                    required: "Country is required",
-                    minLength: {
-                      value: 3,
-                      message: "Country must be at least 3 characters long.",
-                    },
-                    maxLength: {
-                      value: 15,
-                      message: "Country cannot be longer than 15 characters.",
-                    },
-                    pattern: {
-                      value: /^[a-zA-Z][a-zA-Z\s]*$/,
-                      message:
-                        "Country  should start with a letter and only contain letters and spaces.",
-                    },
-                  })}
-                  placeholder="Enter your country"
-                  className="input-box-ag"
-                />
-                {errors.country && (
-                  <p className="error-ag">{errors.country.message}</p>
-                )}
+                 <label htmlFor="state" className="input-label-ag">
+                  State
+                 </label>
+                 <select
+                   id="state"
+                   {...register("state", {
+                     required: "State is required",
+                   })}
+                   className="input-box-ag cursor-pointer custom-scrollbar"
+                   defaultValue=""
+                 >
+                   <option value="" disabled>
+                     Select your state
+                  </option>
+                    {states.map((state) => (
+                    <option key={state} value={state}>
+                     {state}
+                  </option>
+                  ))}
+                  </select>
+                  {errors.state && (
+                   <p className="error-ag">{errors.state.message}</p>
+                  )}
               </div>
             </div>
           </>

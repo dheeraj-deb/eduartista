@@ -164,7 +164,7 @@ const AgentLogin = ({ setIsLoginForm }) => {
             Mobile Number
           </label>
           <input
-            type="text"
+            type="number"
             id="mobileNumber"
             value={mobileNumber}
             onChange={handleMobileNumberChange}
@@ -195,7 +195,7 @@ const AgentLogin = ({ setIsLoginForm }) => {
             {otp.map((digit, index) => (
               <input
                 key={index}
-                type="text"
+                type="number"
                 ref={(input) => (inputRefs.current[index] = input)}
                 value={digit}
                 onChange={(e) => handleOtpChange(e, index)}
