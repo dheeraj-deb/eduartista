@@ -1,0 +1,98 @@
+.cardSection {
+  padding: 40px 20px;
+  text-align: center;
+}
+.cardSection {
+  margin-bottom: 30px;
+}
+
+.textContainer {
+  margin-bottom: 30px;
+}
+
+.smallHeading {
+  font-size: 16px;
+  color: #777;
+}
+
+.bigHeading {
+  font-size: 36px;
+  color: #333;
+  margin: 10px 0;
+}
+
+.mediumText {
+  font-size: 18px;
+  color: #555;
+  margin: 10px 0 20px;
+}
+
+.cardContainer {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.card {
+  position: relative;
+  width: 280px;
+  height: 350px;
+  margin: 10px;
+  border-radius: 8px;
+  color: white;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 15px;
+  overflow: visible;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.cardTitle {
+  font-size: 20px;
+  margin: 0;
+}
+
+.cardDescription {
+  font-size: 14px;
+  margin: 15px 0;
+}
+
+.cardButton {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #6c1b81;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  height: 50px;
+  min-width: 200px;
+}
+
+.cardButton:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+@media (max-width: 768px) {
+  .cardSection {
+    padding: 20px 10px;
+  }
+  .bigHeading {
+    font-size: 24px;
+  }
+  .card {
+    margin-bottom: 30px;
+  }
+}

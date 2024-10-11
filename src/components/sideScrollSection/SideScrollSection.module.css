@@ -1,0 +1,151 @@
+.sideScrollSection {
+  display: flex;
+  height: 100vh;
+  background-color: #6c1b81;
+  overflow: hidden;
+}
+
+.leftSide {
+  width: 50%;
+  overflow-y: scroll;
+  position: relative;
+  scrollbar-width: none;
+}
+
+.leftSide::-webkit-scrollbar {
+  display: none;
+}
+
+.imageContainer {
+  height: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 1rem;
+  border: #ffffff 2px solid;
+}
+
+.rightSide {
+  background-color: #6c1b81;
+  width: 50%;
+  padding: 40px;
+  position: sticky;
+  top: 0;
+}
+
+.miniHeading {
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.bigHeading {
+  font-size: 36px;
+  color: #ffffff;
+  margin: 10px 0;
+}
+
+.subHeading {
+  font-size: 20px;
+  color: #ffffff;
+  margin: 10px 0;
+}
+
+.content {
+  font-size: 18px;
+  color: #ffffff;
+  margin: 10px 0 20px;
+}
+
+.learnMore {
+  text-decoration: underline;
+  color: #23b2ab;
+  cursor: pointer;
+}
+
+.mobileNav {
+  display: none;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.currentIndexImage {
+  display: none;
+}
+/* Responsive styles */
+@media (max-width: 768px) {
+  .sideScrollSection {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .leftSide,
+  .rightSide {
+    width: 100%;
+    height: auto;
+  }
+  .currentIndexImage {
+    display: block;
+  }
+  .currentIndexImage > img {
+    margin: 20px auto;
+    width: 90%;
+    height: 60vh;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 1rem;
+    border: #ffffff 2px solid;
+  }
+  .imageContainer {
+    height: 60vh;
+  }
+
+  .bigHeading {
+    font-size: 28px;
+  }
+
+  .subHeading {
+    font-size: 18px; /* Smaller font sizes */
+  }
+
+  .content {
+    font-size: 16px; /* Smaller font sizes */
+  }
+
+  .miniHeading {
+    font-size: 14px; /* Smaller font sizes */
+  }
+
+  .learnMore {
+    font-size: 16px; /* Adjust for better visibility */
+  }
+
+  .mobileNav {
+    display: flex;
+  }
+
+  .sideScrollSection {
+    flex-direction: column; /* Stack elements vertically */
+  }
+
+  .leftSide {
+    display: none;
+  }
+
+  .rightSide {
+    width: 100%;
+    padding: 20px; /* Adjust padding for mobile */
+  }
+
+  .imageContainer {
+    height: 60vh; /* Adjust height for mobile */
+  }
+}

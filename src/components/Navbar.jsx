@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import logo from "/logos.png";
 import { FaRegUser } from "react-icons/fa";
-import Modal from "./Modal";
-import Profile from "./Profile";
+import Modal from "../Modal";
+import Profile from "../Profile";
 import { Link, useLocation } from "react-router-dom";
-import useCart from "../hooks/useCart";
-import useAuth from "../hooks/useAuth";
-import { AuthContext } from "../contexts/AuthProvider";
-import { loginContext } from "../layout/Main";
-import { ToastContainer } from "react-toastify";
+import useCart from "../../hooks/useCart";
+import useAuth from "../../hooks/useAuth";
+import { AuthContext } from "../../contexts/AuthProvider";
+import { loginContext } from "../../layout/Main";
 import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = () => {
@@ -43,7 +42,7 @@ const Navbar = () => {
       <li
         className={`${location.pathname === "/" ? "text-blue-500" : "black"}`}
       >
-        <Link to="/">Home</Link>
+        <Link to="/">Home ddd</Link>
       </li>
       <li
         className={`${
@@ -186,7 +185,6 @@ const Navbar = () => {
             </button>
           )}
           <Modal />
-          <ToastContainer />
         </div>
       </div>
     </header>
