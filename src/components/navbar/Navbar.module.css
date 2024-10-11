@@ -184,8 +184,6 @@
   z-index: 99999;
 }
 
-
-
 /* logged user dropdown */
 
 .dropdown {
@@ -206,4 +204,16 @@
 
 .logoutButton:hover {
   background-color: #f0f0f0; /* Optional hover effect */
+}
+
+.username {
+  font-size: 16px; /* Default font size for larger devices */
+}
+
+/* Media query for small devices */
+@media (max-width: 640px) {
+  /* Adjust the breakpoint as needed */
+  .username {
+    font-size: 11px;
+  }
 }

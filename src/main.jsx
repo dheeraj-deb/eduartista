@@ -18,7 +18,7 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ApolloProviderComponent>
     <AuthProvider>
-      <ToastContainer />
+      <ToastContainer style={{ zIndex: "999999" }} />
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
       </QueryClientProvider>
