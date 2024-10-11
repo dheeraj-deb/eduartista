@@ -1,0 +1,126 @@
+.subscriptionOptions {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.smallHeading {
+  font-size: 20px;
+  color: #6c1b81;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.mainHeading {
+  font-size: 36px;
+  color: #333;
+  margin: 10px 0;
+}
+
+.content {
+  font-size: 18px;
+  color: #555;
+  margin: 10px 0 20px;
+}
+
+.buttonContainer {
+  margin-bottom: 30px;
+}
+
+.optionButton {
+  background-color: #ffffff;
+  color: #6c1b81;
+  border: none;
+  border-radius: 5px;
+  padding: 15px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.optionButton:hover {
+  background-color: #6c1b81;
+  color: white;
+}
+
+.selectedButton {
+  background-color: #6c1b81;
+  color: white;
+  border: 2px solid #6c1b81;
+}
+
+.cardContainer {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 280px;
+  height: 350px;
+  background-color: #f8f8f8;
+  background-image: url("https://plus.unsplash.com/premium_photo-1679942891312-7a42d7c4abb6?q=80&w=1776&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cardTitle {
+  font-size: 24px;
+  margin: 0;
+  color: #6c1b81;
+}
+
+.cardDescription {
+  font-size: 16px;
+  margin: 5px 0;
+  color: #000000;
+  line-height: 1.5;
+}
+
+.mobileLayout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mobileImage {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+.actualPrice {
+  font-size: 24px;
+  color: #6c1b81;
+  font-weight: bold;
+}
+.crossedPrice {
+  font-size: 14px;
+  color: #999;
+  text-decoration: line-through;
+}
+.cardTotalPrice {
+  font-size: 20px;
+  color: #6c1b81;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .optionButton {
+    width: 100%;
+  }
+}

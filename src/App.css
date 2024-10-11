@@ -1,19 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
-body{
-  font-family: 'Inter', sans-serif;
+body {
+  font-family: "Ubuntu", sans-serif;
 }
-
-header, nav{
+header,
+nav {
   z-index: 10001 !important;
 }
 
-.subtitle{
+.subtitle {
   @apply text-yellow-800 uppercase tracking-wide font-semibold text-lg;
 }
 
-.title{
-  @apply  text-textYellow text-4xl md:text-5xl md:leading-snug font-bold my-2;
+.title {
+  @apply text-textYellow text-4xl md:text-5xl md:leading-snug font-bold my-2;
 }
 
 .slick-slider {
@@ -22,13 +22,12 @@ header, nav{
   /* height: 480px !important; */
 }
 
-.learn-more-become-affiliate-color{
+.learn-more-become-affiliate-color {
   background-color: #ffeab9;
   display: flex;
   align-items: center;
   justify-content: center;
 }
- 
 
 .slick-prev {
   z-index: 1;
@@ -50,22 +49,22 @@ header, nav{
   /* font-size: 12px !important; */
 }
 
-.heartStar{
+.heartStar {
   border-radius: 0px 28px 0px 28px;
 }
 
-.section-container{
-  @apply max-w-screen-2xl container mx-auto xl:px-24 px-4
+.section-container {
+  @apply max-w-screen-2xl container mx-auto xl:px-24 px-4;
 }
 
-.footer-title{
+.footer-title {
   color: black !important;
 }
 
-.active{
+.active {
   text-decoration: underline;
   text-underline-offset: 5px;
-  color: #39DB4A;
+  color: #39db4a;
 }
 
 .loading-spinner {
@@ -74,18 +73,18 @@ header, nav{
   justify-content: center;
   min-height: 100vh;
   font-size: 1.5rem;
-  color: #fff; 
+  color: #fff;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 input[type="number"] {
-    -moz-appearance: textfield;
-    appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .table thead {
@@ -110,7 +109,9 @@ input[type="number"] {
 }
 
 .dashboard-container {
-  background-color: rgb(12 10 9); /* Set the background color to match the dark mode background */
+  background-color: rgb(
+    12 10 9
+  ); /* Set the background color to match the dark mode background */
   overflow: hidden; /* Hide any overflow content */
 }
 
@@ -119,27 +120,21 @@ input[type="number"] {
   color: yellow; /* or any other styling for active state */
 }
 
-
 .outlet-background {
-  background-image: url('../public/back1.jpg'); /* Adjust the path as necessary */
+  background-image: url("../public/back1.jpg"); /* Adjust the path as necessary */
   background-size: cover;
   background-position: center;
 }
 
 .menu-background {
-  background-image: url('../public/back4.jpg'); /* Adjust the path as necessary */
+  background-image: url("../public/back4.jpg"); /* Adjust the path as necessary */
   background-size: cover;
   background-position: center;
 }
 
-
-
-
 /* ------------------------------ */
 
-
-
-.card-sss{
+.card-sss {
   padding-top: 2rem;
   box-shadow: 6px 6px 10px 6px rgba(22, 22, 26, 0.18);
   border: none;
@@ -151,44 +146,34 @@ input[type="number"] {
   text-decoration-skip-ink: none;
 }
 
-
-@media (min-width: 1400px){
-
-.cards-s {
-  width: 100%;
-  height: 27rem;
-}
-.card-ss {
-  width: 25rem;
-  height: 40rem;
-}
-
+@media (min-width: 1400px) {
+  .cards-s {
+    width: 100%;
+    height: 27rem;
+  }
+  .card-ss {
+    width: 25rem;
+    height: 40rem;
+  }
 }
 
-
-@media (min-width: 1076px) and (max-width: 1399px){
-
-.cards-s {
-  width: 20rem;
-  height: 20rem;
-}
+@media (min-width: 1076px) and (max-width: 1399px) {
+  .cards-s {
+    width: 20rem;
+    height: 20rem;
+  }
 }
 
-
-@media (min-width: 876px) and (max-width: 1075px){
-
-.cards-s {
-  width: 20rem;
-  height: 20rem;
-}
-
+@media (min-width: 876px) and (max-width: 1075px) {
+  .cards-s {
+    width: 20rem;
+    height: 20rem;
+  }
 }
 
 @media (min-width: 676px) and (max-width: 875px) {
-
-
   .cards-s {
-  width: 20rem;
-  height: 20rem;
-}
+    width: 20rem;
+    height: 20rem;
+  }
 }
