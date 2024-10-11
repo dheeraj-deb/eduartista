@@ -1,0 +1,140 @@
+.banner {
+  position: relative;
+  width: 100%;
+  height: 75vh;
+  margin: auto;
+  overflow: hidden;
+}
+
+.bannerImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 60px;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+.overlayHeading {
+  color: #ffffff;
+  font-size: 32px;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.overlayDescription {
+  color: #e1dbdb;
+  font-size: 18px;
+  text-align: center;
+  margin: 10px 20px;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.customButton {
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease, transform 0.3s;
+}
+
+.customButton:hover {
+  background-color: #6c1b81;
+  transform: translateY(-2px);
+  color: #ffffff;
+}
+
+.navButtons {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+}
+
+.prevButton,
+.nextButton {
+  background: transparent;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  color: #e1dbdb;
+}
+
+.prevButton:hover,
+.nextButton:hover {
+  color: #b8b5a9;
+}
+
+.fadeIn {
+  animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .banner {
+    height: 100%;
+  }
+  .overlay {
+    padding: 1rem;
+  }
+
+  .banner {
+    height: 400px;
+  }
+  .bannerImage {
+    height: 400px;
+    object-fit: cover;
+  }
+
+  .overlayHeading {
+    font-size: 24px;
+  }
+
+  .overlayDescription {
+    font-size: 16px;
+    margin: 10px 10px;
+  }
+
+  .customButton {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+
+  .navButtons {
+    top: 40%;
+  }
+}

@@ -1,0 +1,109 @@
+.socialAppSection {
+  display: flex;
+  align-items: center;
+  padding: 40px 20px;
+  background-color: #6c1b81;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+}
+
+.textContainer {
+  flex: 1;
+  margin-left: 20px;
+  text-align: left;
+}
+
+.smallHeading {
+  font-size: 18px;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.mainHeading {
+  font-size: 36px;
+  color: #ffffff;
+  margin: 10px 0;
+  font-family: "Georgia", serif;
+}
+
+.description {
+  font-size: 18px;
+  color: #ffffff;
+  margin: 10px 0 20px;
+}
+
+.pointsList {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 10px 0 20px;
+}
+
+.pointsList li {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.joinButton {
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  border-radius: 5px;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.joinButton:hover {
+  background-color: #fff;
+  color: #6c1b81;
+  transform: scale(1.05);
+}
+
+.imageContainer {
+  flex: 1;
+  max-width: 50%;
+  margin-bottom: 20px;
+}
+
+.appImage {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .socialAppSection {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .textContainer {
+    margin-left: 0;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .smallHeading {
+    font-size: 16px;
+  }
+
+  .mainHeading {
+    font-size: 28px;
+  }
+
+  .description {
+    font-size: 16px;
+  }
+
+  .pointsList li {
+    font-size: 14px;
+  }
+
+  .joinButton {
+    width: 100%;
+    padding: 10px 0;
+  }
+}
