@@ -183,3 +183,27 @@
   color: white;
   z-index: 99999;
 }
+
+
+
+/* logged user dropdown */
+
+.dropdown {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 99999; /* Make sure dropdown is above other elements */
+  border-radius: 3px;
+}
+
+.logoutButton {
+  padding: 8px 16px;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.logoutButton:hover {
+  background-color: #f0f0f0; /* Optional hover effect */
+}

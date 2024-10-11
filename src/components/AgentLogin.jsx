@@ -143,7 +143,10 @@ const AgentLogin = ({ setIsLoginForm }) => {
           setCountdown(0);
           setMobileNumber("");
           document.getElementById("my_modal_5").close();
-          login(res?.data?.agentVerifyOtp?.token);
+          login(
+            res?.data?.agentVerifyOtp?.token,
+            res?.data?.agentVerifyOtp?.name
+          );
         })
         .catch((err) => {
           toast(err.message, { type: "error" });

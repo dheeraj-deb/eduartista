@@ -13,9 +13,11 @@ export const loginContext = createContext();
 const Main = () => {
   const { loading } = useContext(AuthContext);
   const [token, setToken] = useState(null);
+  const [username, setUsername] = useState(null);
 
-  function login(token) {
+  function login(token, username) {
     localStorage.setItem("authToken", token);
+    localStorage.setItem("username", username)
     setToken(token);
   }
 
@@ -26,13 +28,20 @@ const Main = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
+    const username = localStorage.getItem("username");
     if (token) {
       setToken(token);
     }
+    if(username){
+      setUsername(username)
+    }
   }, []);
+
+  console.log("username", username);
 
   const loginState = {
     token,
+    username,
     login,
     logout,
   };

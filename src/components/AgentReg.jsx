@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useRef, useContext } from "react";
+import React, {
+  useState,
+  useCallback,
+  useRef,
+  useContext,
+  useEffect,
+} from "react";
 import Webcam from "react-webcam";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
@@ -50,6 +56,13 @@ const AgentReg = ({ setIsLoginForm }) => {
   const [isWebcamVisible, setIsWebcamVisible] = useState(false); // Initially, the webcam is not visible
 
   const webcamRef = useRef(null);
+
+  useEffect(() => {
+    const modal = document.getElementById("my_modal_5");
+    if (!modal) {
+      setStep(1);
+    }
+  }, []);
 
   // Capture photo from the webcam
   const capturePhoto = useCallback(() => {
@@ -160,7 +173,7 @@ const AgentReg = ({ setIsLoginForm }) => {
         console.log("Res", res);
         setIsLoginForm(true);
         document.getElementById("my_modal_5").close();
-        login(res?.data?.createAgent?.token);
+        login(res?.data?.createAgent?.token, "");
         const agent = res?.data?.createAgent?.agent;
         downloadPDF(agent.name, agent.agentID, agent.photo);
       })
@@ -168,6 +181,14 @@ const AgentReg = ({ setIsLoginForm }) => {
         toast(error.message, { type: "error" });
       });
     // Process form data (e.g., send to a server)
+  };
+
+  const handleDateClick = (event) => {
+    // Prevent the default behavior and focus on the date input
+    event.stopPropagation();
+    const dateInput = document.getElementById("dob");
+    console.log("dateInput", dateInput);
+    dateInput.focus();
   };
 
   return (
@@ -264,14 +285,16 @@ const AgentReg = ({ setIsLoginForm }) => {
               <label htmlFor="dob" className="input-label-ag">
                 Enter your date of birth
               </label>
-              <input
-                type="date"
-                id="dob"
-                {...register("dob", {
-                  required: "Date of Birth is required",
-                })}
-                className="input-box-ag"
-              />
+              <div className="relative" onClick={handleDateClick}>
+                <input
+                  type="date"
+                  id="dob"
+                  {...register("dob", {
+                    required: "Date of Birth is required",
+                  })}
+                  className="input-box-ag "
+                />
+              </div>
               {errors.dob && <p className="error-ag">{errors.dob.message}</p>}
             </div>
           </>
@@ -395,36 +418,40 @@ const AgentReg = ({ setIsLoginForm }) => {
                 )}
               </div>
               <div className="mb-7 relative">
-                 <label htmlFor="state" className="input-label-ag">
-                   State
-                 </label>
-                 <div
-                    className={`block bg-white w-full border border-[#11111136] rounded-lg px-3 py-2 cursor-pointer focus:border-black focus:ring-0 
-                                 ${getValues("state") ? "text-black" : "text-gray-500 text-sm"}`}
-                    onClick={() => setShowOptions(!showOptions)} 
-                  >
+                <label htmlFor="state" className="input-label-ag">
+                  State
+                </label>
+                <div
+                  className={`block bg-white w-full border border-[#11111136] rounded-lg px-3 py-2 cursor-pointer focus:border-black focus:ring-0 
+                                 ${
+                                   getValues("state")
+                                     ? "text-black"
+                                     : "text-gray-500 text-sm"
+                                 }`}
+                  onClick={() => setShowOptions(!showOptions)}
+                >
                   {getValues("state") || "Select your state"}
-                  </div>
-                  {showOptions && (
-                   <div className="text-black text-sm absolute z-10 bg-white border border-[#11111136] rounded-lg mt-1 w-full max-h-44 overflow-y-auto custom-scrollbar">
+                </div>
+                {showOptions && (
+                  <div className="text-black text-sm absolute z-10 bg-white border border-[#11111136] rounded-lg mt-1 w-full max-h-44 overflow-y-auto custom-scrollbar">
                     {states.map((state) => (
-                     <div
-                       key={state}
-                       className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                       onClick={() => {
-                         setValue("state", state); 
-                         setShowOptions(false); 
-                     }}
+                      <div
+                        key={state}
+                        className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                        onClick={() => {
+                          setValue("state", state);
+                          setShowOptions(false);
+                        }}
                       >
-                      {state}
-                     </div>
-                   ))}
-                   </div>
-                 )}
-                  {errors.state && (
-                   <p className="error-ag">{errors.state.message}</p>
-                  )}
-               </div>
+                        {state}
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {errors.state && (
+                  <p className="error-ag">{errors.state.message}</p>
+                )}
+              </div>
             </div>
           </>
         )}

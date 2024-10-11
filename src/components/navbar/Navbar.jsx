@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserLarge, faTimes } from "@fortawesome/free-solid-svg-icons";
 
@@ -7,11 +7,34 @@ import logo from "../../../public/assets/logo.jpg";
 import icon from "../../../src/assets/Genie.png";
 import books from "../../../src/assets/books.jpeg";
 import paperCraft from "../../../src/assets/paper-craft.png";
+import Modal from "../Modal";
+import { loginContext } from "../../layout/Main";
 const Navbar = () => {
   const [isNavVisible, setNavVisible] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [navOverlayVisible, setNavOverlayVisible] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+
+  const { token, username, logout } = useContext(loginContext);
+
+  useEffect(() => {
+    if (token) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, [token]);
+
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const handleUsernameClick = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+
+  const handleLogout = () => {
+    logout();
+    setDropdownVisible(false);
+  };
 
   const toggleNav = () => {
     setNavVisible(!isNavVisible);
@@ -218,7 +241,37 @@ const Navbar = () => {
           <img className={styles.iconic} src={icon} alt="" />
         </div>
         <div className={styles.loginRegister}>
-          {loggedIn ? "User Name" : <FontAwesomeIcon icon={faUserLarge} />}
+          {loggedIn ? (
+            <div
+              onMouseEnter={handleUsernameClick}
+              onMouseLeave={handleUsernameClick}
+              onClick={handleUsernameClick}
+              className={styles.username}
+            >
+              Hello, {username}
+              {dropdownVisible && (
+                <div className={styles.dropdown}>
+                  <button
+                    onClick={handleLogout}
+                    className={styles.logoutButton}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <FontAwesomeIcon
+              icon={faUserLarge}
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                const modal = document.getElementById("my_modal_5");
+                modal.showModal();
+              }}
+            />
+          )}
         </div>
       </div>
       {!navOverlayVisible && (
@@ -263,6 +316,7 @@ const Navbar = () => {
           </nav>
         </div>
       )}
+      <Modal />
     </header>
   );
 };

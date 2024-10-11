@@ -51,9 +51,7 @@ const Modal = () => {
                 className="flex-1 flex justify-center items-center py-2 rounded-r-[8px] cursor-pointer transition duration-300"
                 style={{
                   backgroundColor:
-                    activeTab === "Agent"
-                      ? "#111111"
-                      : "rgba(17, 17, 17, 0.21)",
+                    activeTab === "Agent" ? "#111111" : "#6c1b81",
                 }}
                 onClick={() => setActiveTab("Agent")}
               >
