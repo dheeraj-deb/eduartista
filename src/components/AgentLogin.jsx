@@ -137,10 +137,11 @@ const AgentLogin = ({ setIsLoginForm }) => {
         },
       })
         .then((res) => {
-          console.log("res", res);
-          setMessage("OTP verified successfully! You are now logged in.");
-          setIsOtpVerified(true);
-
+          setMessage("");
+          setIsOtpVerified(false);
+          setOtpSent(false);
+          setCountdown(0);
+          setMobileNumber("");
           document.getElementById("my_modal_5").close();
           login(res?.data?.agentVerifyOtp?.token);
         })
