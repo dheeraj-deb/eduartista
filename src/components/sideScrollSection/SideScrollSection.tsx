@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import books from "../../../src/assets/books.jpeg";
 import paperCraft from "../../../src/assets/paper-craft.png";
 import styles from "./SideScrollSection.module.css"; // Use CSS Modules for styling
@@ -43,35 +43,41 @@ const SideScrollSection = () => {
   const touchStartX = useRef(null);
   const touchEndX = useRef(null);
   const leftSideRef = useRef<HTMLDivElement>(null);
+  const intervalRef = useRef(null); // Ref to store the interval ID
 
   const handleTouchStart = (e) => {
-    touchStartX.current = e.touches[0].clientX; // Store the starting touch position
+    touchStartX.current = e.touches[0].clientX;
   };
 
   const handleTouchMove = (e) => {
-    touchEndX.current = e.touches[0].clientX; // Update the ending touch position
+    touchEndX.current = e.touches[0].clientX;
   };
 
   const handleTouchEnd = () => {
-    if (
-      touchStartX.current !== null &&
-      touchEndX.current !== null &&
-      touchStartX.current - touchEndX.current > 50
-    ) {
-      // Swipe left
-      setCurrentIndex((prevIndex) =>
-        Math.min(prevIndex + 1, images.length - 1)
-      );
-    }
-    if (
-      touchStartX.current !== null &&
-      touchEndX.current !== null &&
-      touchStartX.current - touchEndX.current < -50
-    ) {
-      // Swipe right
-      setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+    if (touchStartX.current !== null && touchEndX.current !== null) {
+      const deltaX = touchStartX.current - touchEndX.current;
+      if (deltaX > 50) {
+        // Swipe left
+        setCurrentIndex((prevIndex) =>
+          Math.min(prevIndex + 1, images.length - 1)
+        );
+      } else if (deltaX < -50) {
+        // Swipe right
+        setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+      }
     }
   };
+
+  // Auto change the current index every 5 seconds
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Change every 5 seconds
+
+    return () => clearInterval(intervalRef.current); // Cleanup interval on unmount
+  }, []);
 
   const handleScroll = () => {
     if (leftSideRef.current) {
