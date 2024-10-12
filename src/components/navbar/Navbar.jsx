@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUserLarge,
@@ -12,6 +12,8 @@ import logo from "../../../public/assets/logo.jpg";
 import icon from "../../../src/assets/Genie.png";
 import books from "../../../src/assets/books.jpeg";
 import paperCraft from "../../../src/assets/paper-craft.png";
+import Modal from "../Modal";
+import { loginContext } from "../../layout/Main";
 const Navbar = () => {
   const [isNavVisible, setNavVisible] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -20,6 +22,7 @@ const Navbar = () => {
   const [subHeading, setSubHeading] = useState(null);
   const [dropdownValues, setDropdownValues] = useState(null);
   const [expandedSubheading, setExpandedSubheading] = useState(null);
+  const { token, logout } = useContext(loginContext);
 
   const handleSubheadingClick = (key) => {
     setExpandedSubheading(expandedSubheading === key ? null : key);
@@ -338,7 +341,20 @@ const Navbar = () => {
           <img className={styles.iconic} src={icon} alt="" />
         </div>
         <div className={styles.loginRegister}>
-          {loggedIn ? "User Name" : <FontAwesomeIcon icon={faUserLarge} />}
+          {loggedIn ? (
+            "Logout"
+          ) : (
+            <FontAwesomeIcon
+              icon={faUserLarge}
+              onClick={() => {
+                if (token) {
+                  logout();
+                } else {
+                  document.getElementById("my_modal_5").showModal();
+                }
+              }}
+            />
+          )}
         </div>
       </div>
       {!navOverlayVisible && (
@@ -422,6 +438,7 @@ const Navbar = () => {
           </nav>
         </div>
       )}
+      <Modal />
     </header>
   );
 };
