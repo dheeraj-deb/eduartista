@@ -348,7 +348,7 @@ const Navbar = () => {
               <li
                 key={item}
                 onMouseEnter={() => setHoveredItem(item)}
-                onMouseLeave={() => setHoveredItem(item)}
+                onMouseLeave={() => setHoveredItem(null)}
               >
                 {item}
               </li>
@@ -357,6 +357,7 @@ const Navbar = () => {
           {!navOverlayVisible && hoveredItem && (
             <div className={styles.hoverContent}>
               {hoverContentMap[hoveredItem]?.table}
+              {hoverContentMap[hoveredItem].image}
             </div>
           )}
         </nav>
