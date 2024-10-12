@@ -137,12 +137,16 @@ const AgentLogin = ({ setIsLoginForm }) => {
         },
       })
         .then((res) => {
-          console.log("res", res);
-          setMessage("OTP verified successfully! You are now logged in.");
-          setIsOtpVerified(true);
-
+          setMessage("");
+          setIsOtpVerified(false);
+          setOtpSent(false);
+          setCountdown(0);
+          setMobileNumber("");
           document.getElementById("my_modal_5").close();
-          login(res?.data?.agentVerifyOtp?.token);
+          login(
+            res?.data?.agentVerifyOtp?.token,
+            res?.data?.agentVerifyOtp?.name
+          );
         })
         .catch((err) => {
           toast(err.message, { type: "error" });
@@ -164,7 +168,7 @@ const AgentLogin = ({ setIsLoginForm }) => {
             Mobile Number
           </label>
           <input
-            type="text"
+            type="number"
             id="mobileNumber"
             value={mobileNumber}
             onChange={handleMobileNumberChange}
@@ -195,7 +199,7 @@ const AgentLogin = ({ setIsLoginForm }) => {
             {otp.map((digit, index) => (
               <input
                 key={index}
-                type="text"
+                type="number"
                 ref={(input) => (inputRefs.current[index] = input)}
                 value={digit}
                 onChange={(e) => handleOtpChange(e, index)}

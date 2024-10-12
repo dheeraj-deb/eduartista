@@ -40,6 +40,7 @@ export const VERIFY_OTP = gql`
     agentVerifyOtp(input: $input) {
       message
       token
+      name
       status
     }
   }
