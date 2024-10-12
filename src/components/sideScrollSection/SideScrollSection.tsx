@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import books from "../../../src/assets/books.jpeg";
 import paperCraft from "../../../src/assets/paper-craft.png";
 import styles from "./SideScrollSection.module.css"; // Use CSS Modules for styling
@@ -21,10 +21,10 @@ const images = [
       "Coming soon for kids aged 7-12, this magazine will include comic stories, spoken English content, and exciting competitions to foster creativity and learning.",
   },
   {
-    src: "https://images.unsplash.com/photo-1600189261762-905ef844cfc2?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    src: paperCraft,
     smallHeading: "EDUARTISTA",
-    mainHeading: "Empower Young Minds",
-    subHeading: "Creative Learning Resources",
+    mainHeading: "Craft Lot",
+    subHeading: "Paper cut and craft",
     content:
       "Join EduArtista and empower young minds through engaging educational resources designed to cultivate creativity and inspire lifelong learning.",
   },
@@ -40,25 +40,58 @@ const images = [
 
 const SideScrollSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const touchStartX = useRef(null);
+  const touchEndX = useRef(null);
+  const leftSideRef = useRef<HTMLDivElement>(null);
 
-  const handleScroll = (e) => {
-    const scrollTop = e.target.scrollTop;
-    const containerHeight = e.target.clientHeight;
-    const newIndex = Math.floor(scrollTop / containerHeight);
-    setCurrentIndex(Math.min(newIndex, images.length - 1));
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX; // Store the starting touch position
   };
 
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, images.length - 1));
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX; // Update the ending touch position
   };
 
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+  const handleTouchEnd = () => {
+    if (
+      touchStartX.current !== null &&
+      touchEndX.current !== null &&
+      touchStartX.current - touchEndX.current > 50
+    ) {
+      // Swipe left
+      setCurrentIndex((prevIndex) =>
+        Math.min(prevIndex + 1, images.length - 1)
+      );
+    }
+    if (
+      touchStartX.current !== null &&
+      touchEndX.current !== null &&
+      touchStartX.current - touchEndX.current < -50
+    ) {
+      // Swipe right
+      setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+    }
+  };
+
+  const handleScroll = () => {
+    if (leftSideRef.current) {
+      const containerHeight = leftSideRef.current.clientHeight;
+      const scrollTop = leftSideRef.current.scrollTop;
+      const newIndex = Math.floor(scrollTop / containerHeight);
+      setCurrentIndex(Math.min(newIndex, images.length - 1));
+    }
   };
 
   return (
     <div className={styles.sideScrollSection}>
-      <div className={styles.leftSide} onScroll={handleScroll}>
+      <div
+        className={styles.leftSide}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onScroll={handleScroll}
+        ref={leftSideRef} // Add reference for scroll handling
+      >
         {images.map((image, index) => (
           <div className={styles.imageContainer} key={index}>
             <img
@@ -83,16 +116,17 @@ const SideScrollSection = () => {
         <p className={styles.content}>{images[currentIndex].content}</p>
         <span className={styles.learnMore}>Learn More</span>
 
-        <div className={styles.mobileNav}>
-          <button onClick={handlePrev} disabled={currentIndex === 0}>
-            Previous
-          </button>
-          <button
-            onClick={handleNext}
-            disabled={currentIndex === images.length - 1}
-          >
-            Next
-          </button>
+        {/* Dots for navigation */}
+        <div className={styles.dotContainer}>
+          {images.map((_, index) => (
+            <span
+              key={index}
+              className={`${styles.dot} ${
+                currentIndex === index ? styles.activeDot : ""
+              }`}
+              onClick={() => setCurrentIndex(index)} // Click to change the current index
+            />
+          ))}
         </div>
       </div>
     </div>

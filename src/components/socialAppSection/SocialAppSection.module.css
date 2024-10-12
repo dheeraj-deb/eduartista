@@ -63,15 +63,16 @@
 
 .imageContainer {
   flex: 1;
-  max-width: 50%;
+  height: auto;
   margin-bottom: 20px;
 }
 
 .appImage {
-  width: 100%;
+  width: auto;
   height: auto;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: auto;
 }
 
 @media (max-width: 768px) {

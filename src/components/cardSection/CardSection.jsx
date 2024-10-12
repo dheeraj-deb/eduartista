@@ -31,6 +31,8 @@ const CardSection = () => {
 
     toast("Stay tuned!", {
       type: "success",
+      className: "custom-toast custom-toast-success",
+      bodyClassName: "custom-toast-message",
       onClose: () => setIsButtonDisabled(false),
     });
   };

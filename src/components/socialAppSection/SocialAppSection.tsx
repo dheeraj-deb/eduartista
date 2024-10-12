@@ -1,4 +1,5 @@
 import React from "react";
+import referfriend from "../../assets/refer-a-friend.avif";
 import styles from "./SocialAppSection.module.css"; // Use CSS Modules for styling
 
 const SocialAppSection = () => {
@@ -6,7 +7,7 @@ const SocialAppSection = () => {
     <section className={styles.socialAppSection}>
       <div className={styles.imageContainer}>
         <img
-          src="https://images.unsplash.com/photo-1572949645841-094f3a9c4c94?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src={referfriend}
           alt="Kiddista Magazine"
           className={styles.appImage}
         />
