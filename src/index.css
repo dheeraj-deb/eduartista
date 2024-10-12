@@ -2,41 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 /* Custom scrollbar styles */
 .custom-scrollbar::-webkit-scrollbar {
-   width: 3px; /* Adjust width as needed */
- }
- 
- .custom-scrollbar::-webkit-scrollbar-thumb {
-   background-color: #000; /* Black color */
-   border-radius: 12px; /* Rounded corners */
- }
- 
- .custom-scrollbar::-webkit-scrollbar-track {
-   background: #ccc; 
-   border-radius: 12px;
- }
- 
- /* Hide the scrollbar arrows (default behavior on WebKit browsers) */
- .custom-scrollbar::-webkit-scrollbar-button {
-   display: none; /* Hides the up and down buttons */
- }
+  width: 3px; /* Adjust width as needed */
+}
 
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #000; /* Black color */
+  border-radius: 12px; /* Rounded corners */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #ccc;
+  border-radius: 12px;
+}
+
+/* Hide the scrollbar arrows (default behavior on WebKit browsers) */
+.custom-scrollbar::-webkit-scrollbar-button {
+  display: none; /* Hides the up and down buttons */
+}
 
 @layer components {
-
-    .input-label-ag {
-      @apply block text-sm font-medium text-black mb-1;
+  .input-label-ag {
+    @apply block text-sm font-medium text-black mb-1;
   }
 
   .input-box-ag {
     @apply block bg-white w-full border border-[#11111136] rounded-lg px-3 py-2 placeholder:text-gray-500 placeholder:text-sm text-black focus:border-black focus:ring-0;
- }
-
- .error-ag {
-    @apply text-[#e53e3e] text-xs mt-1;
- }
-
   }
+
+  .error-ag {
+    @apply text-[#e53e3e] text-xs mt-1;
+  }
+}
+
+.custom-toast {
+  position: absolute;
+  top: 1rem !important;
+  background-color: #6c1b81 !important;
+  color: #ffff !important;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.custom-toast-success {
+  border-left: 4px solid #6c1b81 !important;
+}
+
+.custom-toast-message {
+  font-weight: bold;
+}

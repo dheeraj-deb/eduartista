@@ -30,7 +30,7 @@
 .cardContainer {
   display: flex;
   justify-content: space-around;
-  flex-wrap: wrap;
+  height: 400px;
 }
 
 .card {
@@ -86,8 +86,34 @@
 }
 
 @media (max-width: 768px) {
+  .cardContainer {
+    width: 100%;
+    flex-direction: row;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+  .card {
+    min-height: 300px !important;
+    margin-bottom: 3rem !important;
+    min-width: 280px;
+    min-height: 350px;
+  }
+  .cardContainer::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .cardContainer::-webkit-scrollbar-thumb {
+    background-color: #6c1b81;
+    border-radius: 10px;
+  }
+
+  .cardContainer::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
   .cardSection {
     padding: 20px 10px;
+    overflow: hidden;
   }
   .bigHeading {
     font-size: 24px;

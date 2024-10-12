@@ -94,6 +94,8 @@
   }
   .currentIndexImage {
     display: block;
+    max-width: 420px;
+    margin: auto;
   }
   .currentIndexImage > img {
     margin: 20px auto;
@@ -147,5 +149,25 @@
 
   .imageContainer {
     height: 60vh; /* Adjust height for mobile */
+  }
+  .dotContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Adjust as needed */
+  }
+
+  .dot {
+    height: 10px;
+    width: 10px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .activeDot {
+    background-color: #6c1b81; /* Color of the active dot */
   }
 }
